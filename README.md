@@ -2,15 +2,16 @@
 
 ## Steps :
 
-`yarn`
-`yarn prepare` - husky
-`yarn dev` - starting
+- `yarn`
+- `yarn prepare` : husky
+- `yarn dev` : starting
 
-Routing - [React-router](https://reactrouter.com/en/main/start/tutorial)
+## Packages :
 
-Forms - [Formik](https://formik.org/docs/tutorial)
+- Routing : [React-router](https://reactrouter.com/en/main/start/tutorial)
 
-Styling/Component - [Material UI](https://mui.com/material-ui/getting-started/usage/)
+- Forms : [Formik](https://formik.org/docs/tutorial)
+
+- Styling/Component : [Material UI](https://mui.com/material-ui/getting-started/usage/)
 
 - [MUI goes well with Formik](https://formik.org/docs/examples/with-material-ui)
-
