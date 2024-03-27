@@ -1,10 +1,21 @@
 import './App.css';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <div>Hello world!</div>,
+  },
+  {
+    path: '/mj',
+    element: <h1>Manku?</h1>,
+  },
+]);
 
 function App() {
-  const check = 'checking husky';
   return (
     <>
-      <h1>Hotel-admin for me, {check}</h1>
+      <RouterProvider router={router} />
     </>
   );
 }
