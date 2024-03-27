@@ -12,6 +12,8 @@
 
 - Forms : [Formik](https://formik.org/docs/tutorial)
 
+- Form Validations : [yup](https://www.npmjs.com/package/yup)
+
 - Styling/Component : [Material UI](https://mui.com/material-ui/getting-started/usage/)
 
 - [MUI goes well with Formik](https://formik.org/docs/examples/with-material-ui)
