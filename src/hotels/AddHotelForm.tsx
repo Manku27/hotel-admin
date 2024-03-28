@@ -1,3 +1,7 @@
 export const AddHotelForm = () => {
-  return <div>AddHotelForm</div>;
+  return (
+    <>
+      <div>AddHotelForm, day1</div>;
+    </>
+  );
 };
