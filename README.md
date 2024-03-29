@@ -2,9 +2,9 @@
 
 ## Steps :
 
-- `yarn`
-- `yarn prepare` : husky
-- `yarn dev` : starting
+- `npm install`
+- `npx husky install` : husky - just first time
+- `npm run dev` : starting
 
 ## Packages :
 
