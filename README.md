@@ -1,4 +1,6 @@
-# React + TypeScript + Vite
+# Hotel-Admin :
+
+A back-panel software for hotel management.
 
 ## Steps :
 
