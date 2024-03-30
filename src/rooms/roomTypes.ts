@@ -1,12 +1,13 @@
 import { RoomType } from './roomConstants';
 
 export interface Room {
-  // hotel identifier goes in params
+  hotelId: string;
   roomNumber: string;
   type: RoomType;
   defaultPricePerNight: number;
-  occupanySize: number;
   customType?: string; // for RoomType.OTHERS
 }
 
-export type AddRooms = Omit<Room, 'roomNumber'> & { roomNumbers: string[] };
+export type AddRoom = Omit<Room, 'roomNumber' | 'hotelId'> & {
+  roomNumbers: string[];
+};

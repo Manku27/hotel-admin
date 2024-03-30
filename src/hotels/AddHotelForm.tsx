@@ -19,7 +19,7 @@ const initialValues: Hotel = {
   gstNumber: '',
 };
 
-export const AddHotelForm = () => {
+const AddHotelForm = () => {
   const handleSubmit = (values: Hotel) => {
     console.log('Hotel form:', values);
   };

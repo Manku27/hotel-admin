@@ -28,3 +28,5 @@ export const ROOM_TYPE_LIST = Object.keys(RoomType).map((key) => ({
   id: RoomType[key as keyof typeof RoomType],
   label: RoomTypeLabel[key as keyof typeof RoomTypeLabel],
 }));
+
+export const roomTypeValues = Object.values(RoomType);
