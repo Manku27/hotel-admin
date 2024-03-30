@@ -11,7 +11,7 @@ import { AddGuestsForm } from './guests/AddGuestsForm';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <h1>Dashboard, dev-mangalam</h1>,
+    element: <h1>Dashboard, deleted fork, first commit to dev mangalam</h1>,
   },
   {
     path: '/hotel',
