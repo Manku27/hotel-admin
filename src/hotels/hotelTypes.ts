@@ -2,6 +2,6 @@ export interface Hotel {
   name: string;
   address: string;
   shortName?: string;
-  id?: string; //not sure yet
+  gstNumber?: string;
   ownerUserName?: string; // temp - till authentication
 }

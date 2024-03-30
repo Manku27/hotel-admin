@@ -1,7 +1,7 @@
 import { RoomType } from './roomConstants';
 
 export interface Room {
-  hotelId: string; // not id of hotel, but identifier
+  // hotel identifier goes in params
   roomNumber: string;
   type: RoomType;
   defaultPricePerNight: number;
