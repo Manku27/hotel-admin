@@ -1,55 +1,27 @@
-import {
-  Button,
-  Container,
-  Grid,
-  MenuItem,
-  TextField,
-  Typography,
-} from '@mui/material';
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
-import * as Yup from 'yup';
+import { Button, Container, Grid, TextField, Typography } from '@mui/material';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as yup from 'yup';
+import { Hotel } from './hotelTypes';
+import { GST_REGEX } from './hotelConstants';
 
-interface Tier {
-  value: string;
-  label: string;
-}
-
-const tiers: Tier[] = [
-  { value: '1', label: 'Tier 1' },
-  { value: '2', label: 'Tier 2' },
-  { value: '3', label: 'Tier 3' },
-  { value: '4', label: 'Tier 4' },
-];
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
-  location: Yup.string().required('Location is required'),
-  tier: Yup.string().required('Tier is required'),
-  id: Yup.string().required('ID is required'),
+const validationSchema = yup.object().shape({
+  name: yup.string().required('Name is required'),
+  address: yup.string().required('Address is required'),
+  gstNumber: yup.string().matches(GST_REGEX, {
+    message: 'GST number is not valid',
+    excludeEmptyString: true,
+  }),
 });
 
-interface FormValues {
-  name: string;
-  location: string;
-  tier: string;
-  id: string;
-}
-
-const initialValues: FormValues = {
+const initialValues: Hotel = {
   name: '',
-  location: '',
-  tier: '',
-  id: '',
+  address: '',
+  gstNumber: '',
 };
 
 export const AddHotelForm = () => {
-  const handleSubmit = (
-    values: FormValues,
-    { resetForm }: FormikHelpers<FormValues>
-  ) => {
-    // Handle form submission
-    console.log('Submitted values:', values);
-    resetForm();
+  const handleSubmit = (values: Hotel) => {
+    console.log('Hotel form:', values);
   };
 
   return (
@@ -61,7 +33,7 @@ export const AddHotelForm = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({ errors, touched }) => (
+            {({ errors }) => (
               <Form>
                 <Typography variant="h6" gutterBottom>
                   Add Hotel
@@ -72,47 +44,30 @@ export const AddHotelForm = () => {
                   name="name"
                   label="Hotel Name"
                   fullWidth
-                  error={errors.name && touched.name}
+                  error={!!errors.name}
                   helperText={errors.name && <ErrorMessage name="name" />}
                   sx={{ marginBottom: '1rem' }}
                 />
                 <Field
                   as={TextField}
-                  id="location"
-                  name="location"
-                  label="Hotel Location"
+                  id="address"
+                  name="address"
+                  label="Hotel Address"
                   fullWidth
-                  error={errors.location && touched.location}
-                  helperText={
-                    errors.location && <ErrorMessage name="location" />
-                  }
+                  error={!!errors.address}
+                  helperText={errors.address && <ErrorMessage name="address" />}
                   sx={{ marginBottom: '1rem' }}
                 />
                 <Field
                   as={TextField}
-                  id="tier"
-                  name="tier"
-                  select
-                  label="Hotel Tier"
+                  id="gstNumber"
+                  name="gstNumber"
+                  label="GST Number (Optional)"
                   fullWidth
-                  error={errors.tier && touched.tier}
-                  helperText={errors.tier && <ErrorMessage name="tier" />}
-                  sx={{ marginBottom: '1rem' }}
-                >
-                  {tiers.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Field>
-                <Field
-                  as={TextField}
-                  id="id"
-                  name="id"
-                  label="Hotel ID"
-                  fullWidth
-                  error={errors.id && touched.id}
-                  helperText={errors.id && <ErrorMessage name="id" />}
+                  error={!!errors.gstNumber}
+                  helperText={
+                    errors.gstNumber && <ErrorMessage name="gstNumber" />
+                  }
                   sx={{ marginBottom: '1rem' }}
                 />
                 <Button
