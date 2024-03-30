@@ -3,5 +3,4 @@ export interface Hotel {
   address: string;
   shortName?: string;
   gstNumber?: string;
-  ownerUserName?: string; // temp - till authentication
 }

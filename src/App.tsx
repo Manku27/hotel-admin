@@ -4,9 +4,9 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { HotelList } from './hotels/HotelList';
 import { RoomList } from './rooms/RoomsList';
 import { AddGuestsForm } from './guests/AddGuestsForm';
+import AddHotelForm from './hotels/AddHotelForm';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/hotel',
-    element: <HotelList />,
+    element: <AddHotelForm />,
   },
   {
     path: '/rooms',
