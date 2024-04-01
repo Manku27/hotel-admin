@@ -32,56 +32,62 @@ const AddHotelForm = () => {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
+            validateOnBlur={false}
           >
-            {({ errors }) => (
-              <Form>
-                <Typography variant="h6" gutterBottom>
-                  Add Hotel
-                </Typography>
-                <Field
-                  as={TextField}
-                  id="name"
-                  name="name"
-                  label="Hotel Name"
-                  fullWidth
-                  error={!!errors.name}
-                  helperText={errors.name && <ErrorMessage name="name" />}
-                  sx={{ marginBottom: '1rem' }}
-                  required
-                />
-                <Field
-                  as={TextField}
-                  id="address"
-                  name="address"
-                  label="Hotel Address"
-                  fullWidth
-                  error={!!errors.address}
-                  helperText={errors.address && <ErrorMessage name="address" />}
-                  sx={{ marginBottom: '1rem' }}
-                  required
-                />
-                <Field
-                  as={TextField}
-                  id="gstNumber"
-                  name="gstNumber"
-                  label="GST Number"
-                  fullWidth
-                  error={!!errors.gstNumber}
-                  helperText={
-                    errors.gstNumber && <ErrorMessage name="gstNumber" />
-                  }
-                  sx={{ marginBottom: '1rem' }}
-                />
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                >
-                  Submit
-                </Button>
-              </Form>
-            )}
+            {({ errors }) => {
+              return (
+                <Form>
+                  <Typography variant="h6" gutterBottom>
+                    Add Hotel
+                  </Typography>
+                  <Field
+                    as={TextField}
+                    id="name"
+                    name="name"
+                    label="Hotel Name"
+                    fullWidth
+                    error={!!errors.name}
+                    helperText={errors.name && <ErrorMessage name="name" />}
+                    sx={{ marginBottom: '1rem' }}
+                    required
+                  />
+                  <Field
+                    as={TextField}
+                    id="address"
+                    name="address"
+                    label="Hotel Address"
+                    fullWidth
+                    error={!!errors.address}
+                    helperText={
+                      errors.address && <ErrorMessage name="address" />
+                    }
+                    sx={{ marginBottom: '1rem' }}
+                    required
+                  />
+                  <Field
+                    as={TextField}
+                    id="gstNumber"
+                    name="gstNumber"
+                    label="GST Number"
+                    fullWidth
+                    error={!!errors.gstNumber}
+                    helperText={
+                      errors.gstNumber && <ErrorMessage name="gstNumber" />
+                    }
+                    sx={{ marginBottom: '1rem' }}
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    formNoValidate
+                  >
+                    Submit
+                  </Button>
+                </Form>
+              );
+            }}
           </Formik>
         </Grid>
       </Grid>
