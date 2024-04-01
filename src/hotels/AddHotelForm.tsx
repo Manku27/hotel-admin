@@ -47,6 +47,7 @@ const AddHotelForm = () => {
                   error={!!errors.name}
                   helperText={errors.name && <ErrorMessage name="name" />}
                   sx={{ marginBottom: '1rem' }}
+                  required
                 />
                 <Field
                   as={TextField}
@@ -57,12 +58,13 @@ const AddHotelForm = () => {
                   error={!!errors.address}
                   helperText={errors.address && <ErrorMessage name="address" />}
                   sx={{ marginBottom: '1rem' }}
+                  required
                 />
                 <Field
                   as={TextField}
                   id="gstNumber"
                   name="gstNumber"
-                  label="GST Number (Optional)"
+                  label="GST Number"
                   fullWidth
                   error={!!errors.gstNumber}
                   helperText={
