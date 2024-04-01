@@ -1,8 +1,18 @@
-import { Button, Container, Grid, Typography } from '@mui/material';
-import { Formik, Form } from 'formik';
+import {
+  Autocomplete,
+  Button,
+  Chip,
+  Container,
+  Grid,
+  InputAdornment,
+  TextField,
+  Typography,
+} from '@mui/material';
+import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as yup from 'yup';
 import { AddRoom } from './roomTypes';
-import { RoomType, roomTypeValues } from './roomConstants';
+import { ROOM_TYPE_LIST, RoomType, roomTypeValues } from './roomConstants';
+import { SyntheticEvent } from 'react';
 
 const validationSchema = yup.object().shape({
   roomNumbers: yup
@@ -26,7 +36,7 @@ const validationSchema = yup.object().shape({
 
 const initialValues: any = {
   roomNumbers: [],
-  defaultPricePerNight: null,
+  defaultPricePerNight: '',
   type: '',
   customType: '',
 };
@@ -44,18 +54,108 @@ const AddRoomForm = () => {
             initialValues={initialValues}
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
+            validateOnBlur={false}
           >
-            {() => (
+            {({ setFieldValue, errors, values, touched }) => (
               <Form>
                 <Typography variant="h6" gutterBottom>
                   Add Rooms
                 </Typography>
-
+                <Autocomplete
+                  id="type"
+                  options={ROOM_TYPE_LIST}
+                  getOptionLabel={(option) => option.label}
+                  style={{ width: 300 }}
+                  onChange={(e, value) => {
+                    setFieldValue('type', value !== null ? value.id : '');
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      margin="normal"
+                      label="Room Types"
+                      name="type"
+                      error={!!errors.type}
+                      helperText={errors.type && <ErrorMessage name="type" />}
+                      {...params}
+                      required
+                    />
+                  )}
+                  sx={{ marginBottom: '1rem' }}
+                />
+                {values.type === RoomType.OTHER ? (
+                  <Field
+                    as={TextField}
+                    name="customType"
+                    label="Custom Type"
+                    fullWidth
+                    error={!!errors.customType && touched.customType}
+                    helperText={
+                      errors.customType && <ErrorMessage name="customType" />
+                    }
+                    sx={{ marginBottom: '1rem' }}
+                    required
+                  />
+                ) : null}
+                <Field
+                  as={TextField}
+                  name="defaultPricePerNight"
+                  label="Default Price/Night"
+                  fullWidth
+                  error={
+                    !!errors.defaultPricePerNight &&
+                    touched.defaultPricePerNight
+                  }
+                  helperText={
+                    errors.defaultPricePerNight && (
+                      <ErrorMessage name="defaultPricePerNight" />
+                    )
+                  }
+                  sx={{ marginBottom: '1rem' }}
+                  required
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">₹</InputAdornment>
+                    ),
+                  }}
+                  type="number"
+                  onWheel={(e: SyntheticEvent) =>
+                    (e.target as HTMLElement).blur()
+                  }
+                />
+                <Autocomplete
+                  clearIcon={false}
+                  options={[]}
+                  freeSolo
+                  multiple
+                  renderTags={(value, props) =>
+                    value.map((option, index) => (
+                      <Chip label={option} {...props({ index })} key={index} />
+                    ))
+                  }
+                  onChange={(e, value) => {
+                    setFieldValue('roomNumbers', value !== null ? value : '');
+                  }}
+                  sx={{ marginBottom: '1rem' }}
+                  renderInput={(params) => (
+                    <TextField
+                      label="Room Numbers (Hit enter after every entry)"
+                      {...params}
+                      error={!!errors.roomNumbers && touched.roomNumbers}
+                      helperText={
+                        errors.roomNumbers && (
+                          <ErrorMessage name="roomNumbers" />
+                        )
+                      }
+                      required
+                    />
+                  )}
+                />
                 <Button
                   type="submit"
                   variant="contained"
                   color="primary"
                   fullWidth
+                  formNoValidate
                 >
                   Submit
                 </Button>
