@@ -4,7 +4,10 @@ export interface Guest {
   firstName: string;
   lastName: string;
   gender: Gender;
-  govIDFilePath: string; // for minor also
+  age: number;
   mobileNo: string; // one for the group
+  govIDFilePath: string; // for minor also
   pictureFilePath: string;
 }
+
+export const PHONE_REGEX = /^[6789]\d{9}$/;
