@@ -22,8 +22,6 @@ export const FileUploadButton = ({
 }: Props) => {
   const [file, setFile] = useState<File | null>(null);
 
-  console.log(name, isSubmitting);
-
   const uploadFile = async (newFile) => {
     // const formData = new FormData();
     // formData.append('file', newFile);
@@ -37,7 +35,7 @@ export const FileUploadButton = ({
     setValues((prev) => {
       return {
         ...prev,
-        [name]: `thisisfilepathfor-${newFile}`,
+        [name]: `thisisfilepathfor-${name}`,
         [fileNameField]: newFile?.name,
       };
     });

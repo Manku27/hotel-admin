@@ -6,7 +6,7 @@ import '@fontsource/roboto/700.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import AddHotelForm from './hotels/AddHotelForm';
 import AddRoomForm from './rooms/AddRoomForm';
-import AddGuestsForm from './guests/AddGuestsForm';
+import BookingForm from './booking/BookingForm';
 
 const router = createBrowserRouter([
   {
@@ -22,8 +22,8 @@ const router = createBrowserRouter([
     element: <AddRoomForm />,
   },
   {
-    path: '/guests',
-    element: <AddGuestsForm />,
+    path: '/booking',
+    element: <BookingForm />,
   },
 ]);
 

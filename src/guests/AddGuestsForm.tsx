@@ -1,16 +1,14 @@
 import { Box } from '@mui/material';
-import { useState } from 'react';
 import AddSingleGuestForm from './AddSingleGuestForm';
 import { guestInitialValues } from './guestConstants';
 import { GuestForm } from './guestsType';
 
-const AddGuestsForm = () => {
-  const [guestList, setGuestList] = useState<GuestForm[]>([]);
+interface Props {
+  guestList: GuestForm[];
+  handleAddGuest: (data: GuestForm) => void;
+}
 
-  const handleAddGuest = (newGuest: GuestForm) => {
-    setGuestList((currentGuestList) => [...currentGuestList, newGuest]);
-  };
-
+const AddGuestsForm = ({ guestList, handleAddGuest }: Props) => {
   return (
     <Box>
       {guestList.length > 0
