@@ -10,4 +10,9 @@ export interface Guest {
   pictureFilePath: string;
 }
 
+export interface GuestForm extends Guest {
+  govIDFileName: string;
+  pictureFileName: string;
+}
+
 export const PHONE_REGEX = /^[6789]\d{9}$/;

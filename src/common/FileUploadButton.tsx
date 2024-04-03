@@ -1,24 +1,30 @@
 import { Box, Button, FormHelperText, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { ErrorMessage } from 'formik';
 
 interface Props {
   title: string;
   name: string;
-  setFieldValue: (...data: any) => void;
+  setValues: (...data: any) => void;
   error: any;
+  fileNameField: string;
+  isSubmitting: boolean;
 }
 
 export const FileUploadButton = ({
   title,
   error,
   name,
-  setFieldValue,
+  fileNameField,
+  setValues,
+  isSubmitting,
 }: Props) => {
   const [file, setFile] = useState<File | null>(null);
 
-  const uploadFile = async () => {
+  console.log(name, isSubmitting);
+
+  const uploadFile = async (newFile) => {
     // const formData = new FormData();
     // formData.append('file', newFile);
 
@@ -28,16 +34,28 @@ export const FileUploadButton = ({
 
     // }
 
-    setFieldValue(name, `thisisfilepathfor-${name}`);
+    setValues((prev) => {
+      return {
+        ...prev,
+        [name]: `thisisfilepathfor-${newFile}`,
+        [fileNameField]: newFile?.name,
+      };
+    });
   };
 
   const handleFileChange = (e) => {
     const newFile = e.target.files ? e.target.files[0] : null;
     setFile(newFile);
     if (newFile) {
-      uploadFile();
+      uploadFile(newFile);
     }
   };
+
+  useEffect(() => {
+    if (isSubmitting) {
+      setFile(null);
+    }
+  }, [isSubmitting]);
 
   return (
     <Box sx={{ marginBottom: '1rem' }}>

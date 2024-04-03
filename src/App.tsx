@@ -22,7 +22,7 @@ const router = createBrowserRouter([
     element: <AddRoomForm />,
   },
   {
-    path: '/guest',
+    path: '/guests',
     element: <AddGuestsForm />,
   },
 ]);
