@@ -7,10 +7,13 @@ import { GST_REGEX } from './hotelConstants';
 const validationSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
   address: yup.string().required('Address is required'),
-  gstNumber: yup.string().matches(GST_REGEX, {
-    message: 'GST number is not valid',
-    excludeEmptyString: true,
-  }),
+  gstNumber: yup
+    .string()
+    .required('GST number is required')
+    .matches(GST_REGEX, {
+      message: 'GST number is not valid',
+      excludeEmptyString: true,
+    }),
 });
 
 const initialValues: Hotel = {
