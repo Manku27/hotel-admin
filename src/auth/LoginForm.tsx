@@ -6,6 +6,7 @@ import { Button, TextField, Typography } from '@mui/material';
 import PasswordField from './PasswordField';
 import useSWRMutation from 'swr/mutation';
 import { toast } from 'react-toastify';
+import { setAuth } from '../services/auth-service';
 
 const initialValues: Login = {
   email: '',
@@ -21,18 +22,22 @@ const validationSchema = yup.object().shape({
 });
 
 async function sendRequest(url, { arg }: { arg: any }) {
-  return fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(arg),
-  })
-    .then((data) => {
-      toast.success('Login successful!');
-      return data;
-    })
-    .catch((error) => {
-      toast.error(`Login failed.`);
-      throw error;
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(arg),
     });
+    toast.success('Login successful!');
+
+    const resp = await response.json();
+    setAuth(resp);
+    window.location.reload();
+  } catch (error) {
+    toast.error(`Login failed.`);
+  }
 }
 
 const LoginForm = () => {

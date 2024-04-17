@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { getAuth } from '../services/auth-service';
 
 interface Props {
   isAuthReq: boolean;
@@ -7,7 +8,9 @@ interface Props {
 }
 
 export const PrivateRouteWrapper = ({ children, isAuthReq }: Props) => {
-  const isAuthenticated = false;
+  const auth = getAuth();
+  const isAuthenticated = !!auth;
+
   const location = useLocation();
 
   if (isAuthenticated && !isAuthReq) {
