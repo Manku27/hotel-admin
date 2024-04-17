@@ -4,7 +4,6 @@ import * as yup from 'yup';
 import { EMAIL_REGEX } from './authConstants';
 import { Button, TextField, Typography } from '@mui/material';
 import PasswordField from './PasswordField';
-import useSWRMutation from 'swr/mutation';
 import { toast } from 'react-toastify';
 import { setAuth } from '../services/auth-service';
 
@@ -21,7 +20,8 @@ const validationSchema = yup.object().shape({
   password: yup.string().required('Password is required'),
 });
 
-async function sendRequest(url, { arg }: { arg: any }) {
+async function sendRequest(url, arg) {
+  const id = toast.loading('Please wait...');
   try {
     const response = await fetch(url, {
       method: 'POST',
@@ -30,24 +30,29 @@ async function sendRequest(url, { arg }: { arg: any }) {
       },
       body: JSON.stringify(arg),
     });
-    toast.success('Login successful!');
+    toast.update(id, {
+      render: 'Login successful!',
+      type: 'success',
+      isLoading: false,
+      autoClose: 800,
+    });
 
     const resp = await response.json();
     setAuth(resp);
     window.location.reload();
   } catch (error) {
-    toast.error(`Login failed.`);
+    toast.update(id, {
+      render: `Login failed.`,
+      type: 'error',
+      isLoading: false,
+      autoClose: 800,
+    });
   }
 }
 
 const LoginForm = () => {
-  const { trigger, isMutating } = useSWRMutation(
-    `${import.meta.env.VITE_API}/auth/login`,
-    sendRequest
-  );
-
   const handleSubmit = (values: Login) => {
-    trigger(values);
+    sendRequest(`${import.meta.env.VITE_API}/auth/login`, values);
   };
 
   return (
@@ -82,7 +87,6 @@ const LoginForm = () => {
               color="primary"
               fullWidth
               formNoValidate
-              disabled={isMutating}
             >
               Submit
             </Button>
