@@ -4,6 +4,8 @@ import * as yup from 'yup';
 import { EMAIL_REGEX } from './authConstants';
 import { Button, TextField, Typography } from '@mui/material';
 import PasswordField from './PasswordField';
+import useSWRMutation from 'swr/mutation';
+import { toast } from 'react-toastify';
 
 const initialValues: Login = {
   email: '',
@@ -18,9 +20,29 @@ const validationSchema = yup.object().shape({
   password: yup.string().required('Password is required'),
 });
 
+async function sendRequest(url, { arg }: { arg: any }) {
+  return fetch(url, {
+    method: 'POST',
+    body: JSON.stringify(arg),
+  })
+    .then((data) => {
+      toast.success('Login successful!');
+      return data;
+    })
+    .catch((error) => {
+      toast.error(`Login failed.`);
+      throw error;
+    });
+}
+
 const LoginForm = () => {
+  const { trigger, isMutating } = useSWRMutation(
+    `${import.meta.env.VITE_API}/auth/login`,
+    sendRequest
+  );
+
   const handleSubmit = (values: Login) => {
-    console.log('Login form:', values);
+    trigger(values);
   };
 
   return (
@@ -30,8 +52,7 @@ const LoginForm = () => {
       onSubmit={handleSubmit}
       validateOnBlur={false}
     >
-      {({ errors, values }) => {
-        console.log(errors, values);
+      {({ errors }) => {
         return (
           <Form>
             <Typography variant="h6" gutterBottom>
@@ -56,6 +77,7 @@ const LoginForm = () => {
               color="primary"
               fullWidth
               formNoValidate
+              disabled={isMutating}
             >
               Submit
             </Button>
