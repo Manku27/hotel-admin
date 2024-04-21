@@ -2,10 +2,11 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { Login } from './authTypes';
 import * as yup from 'yup';
 import { EMAIL_REGEX } from './authConstants';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, Card, Grid, TextField, Typography } from '@mui/material';
 import PasswordField from './PasswordField';
 import { toast } from 'react-toastify';
 import { setAuth } from '../services/auth-service';
+import { PageCenter } from '../common/PageCenter';
 
 const initialValues: Login = {
   email: '',
@@ -56,44 +57,57 @@ const LoginForm = () => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-      validateOnBlur={false}
-    >
-      {({ errors }) => {
-        return (
-          <Form>
-            <Typography variant="h6" gutterBottom>
-              Log In
-            </Typography>
-            <Field
-              as={TextField}
-              id="email"
-              name="email"
-              label="E-mail"
-              fullWidth
-              error={!!errors.email}
-              helperText={errors.email && <ErrorMessage name="email" />}
-              sx={{ marginBottom: '1rem' }}
-              type="email"
-              required
-            />
-            <PasswordField error={errors.password} />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              fullWidth
-              formNoValidate
+    <PageCenter>
+      <Card sx={{ m: 2, p: 2, maxWidth: '30vw' }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Formik
+              initialValues={initialValues}
+              validationSchema={validationSchema}
+              onSubmit={handleSubmit}
+              validateOnBlur={false}
             >
-              Submit
-            </Button>
-          </Form>
-        );
-      }}
-    </Formik>
+              {({ errors }) => {
+                return (
+                  <Form>
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      align="center"
+                      sx={{ marginBottom: '1rem' }}
+                    >
+                      Hotel-Admin
+                    </Typography>
+                    <Field
+                      as={TextField}
+                      id="email"
+                      name="email"
+                      label="E-mail"
+                      fullWidth
+                      error={!!errors.email}
+                      helperText={errors.email && <ErrorMessage name="email" />}
+                      sx={{ marginBottom: '1rem' }}
+                      type="email"
+                      required
+                    />
+                    <PasswordField error={errors.password} />
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      formNoValidate
+                    >
+                      Submit
+                    </Button>
+                  </Form>
+                );
+              }}
+            </Formik>
+          </Grid>
+        </Grid>
+      </Card>
+    </PageCenter>
   );
 };
 

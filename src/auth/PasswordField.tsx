@@ -26,8 +26,9 @@ const PasswordField = ({ error, ...props }: any) => {
       {({ field }) => {
         return (
           <FormControl
-            sx={{ m: 1, width: '25ch' }}
+            sx={{ marginBottom: '1rem' }}
             variant="outlined"
+            fullWidth
             error={!!error}
           >
             <InputLabel>Password</InputLabel>
