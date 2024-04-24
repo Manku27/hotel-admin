@@ -2,11 +2,13 @@ import { Navigate, createBrowserRouter } from 'react-router-dom';
 import LazyComponentWrapper from './LazyComponentWrapper';
 import { lazy } from 'react';
 import { PrivateRouteWrapper } from './PrivateRouteWrapper';
+import { Container } from '@mui/material';
 
 const AddHotelForm = lazy(() => import('../hotels/AddHotelForm'));
 const AddRoomForm = lazy(() => import('../rooms/AddRoomForm'));
 const BookingForm = lazy(() => import('../booking/BookingForm'));
 const LoginForm = lazy(() => import('../auth/LoginForm'));
+const Employees = lazy(() => import('../employee/Employees'));
 
 export const routes = [
   {
@@ -31,6 +33,10 @@ export const routes = [
     element: <BookingForm />,
   },
   {
+    path: '/users',
+    element: <Employees />,
+  },
+  {
     path: '*',
     element: <Navigate to="/" replace />,
   },
@@ -44,7 +50,11 @@ export const router = createBrowserRouter(
       path: route.path,
       element: (
         <PrivateRouteWrapper isAuthReq={isAuthReqForRoute}>
-          <LazyComponentWrapper>{route.element}</LazyComponentWrapper>
+          <LazyComponentWrapper>
+            <Container maxWidth={false} sx={{ height: '100vh' }}>
+              {route.element}
+            </Container>
+          </LazyComponentWrapper>
         </PrivateRouteWrapper>
       ),
     };

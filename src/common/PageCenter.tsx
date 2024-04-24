@@ -1,6 +1,6 @@
 import { Container } from '@mui/material';
 
-export const PageCenter = ({ children, ...props }: any) => {
+export const PageCenter = ({ children, ...sx }: any) => {
   return (
     <Container
       sx={{
@@ -10,7 +10,7 @@ export const PageCenter = ({ children, ...props }: any) => {
         flex: 1,
         height: '100vh',
         backgroundColor: '#e0e0e0',
-        ...props,
+        ...sx,
       }}
       maxWidth={false}
     >
