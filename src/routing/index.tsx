@@ -4,8 +4,7 @@ import { lazy } from 'react';
 import { PrivateRouteWrapper } from './PrivateRouteWrapper';
 import { Container } from '@mui/material';
 
-const AddHotelForm = lazy(() => import('../hotels/AddHotelForm'));
-const AddRoomForm = lazy(() => import('../rooms/AddRoomForm'));
+const Hotels = lazy(() => import('../hotels/Hotels'));
 const BookingForm = lazy(() => import('../booking/BookingForm'));
 const LoginForm = lazy(() => import('../auth/LoginForm'));
 const Employees = lazy(() => import('../employee/Employees'));
@@ -21,12 +20,8 @@ export const routes = [
     element: <h1>Dashboard</h1>,
   },
   {
-    path: '/hotel',
-    element: <AddHotelForm />,
-  },
-  {
-    path: '/rooms',
-    element: <AddRoomForm />,
+    path: '/hotels',
+    element: <Hotels />,
   },
   {
     path: '/booking',

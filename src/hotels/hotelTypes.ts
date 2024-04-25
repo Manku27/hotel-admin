@@ -1,6 +1,10 @@
 export interface Hotel {
   name: string;
   address: string;
-  shortName?: string;
   gstNumber?: string;
+  employeeIds: any[];
+  rooms: any[];
+  id: number;
 }
+
+export type AddHotel = Omit<Hotel, 'rooms' | 'id'>;

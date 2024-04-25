@@ -28,7 +28,10 @@ const columns: GridColDef[] = [
 const EmployeeTable = () => {
   const { data, isLoading } = useSWR(
     `${import.meta.env.VITE_API}/users`,
-    getFetcher
+    getFetcher,
+    {
+      revalidateOnFocus: false,
+    }
   );
 
   const rows = data || [];

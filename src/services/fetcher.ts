@@ -22,3 +22,33 @@ export const getFetcher = async (url) => {
 
   return res.json();
 };
+
+export async function sendRequest(url, arg, toast, mutate) {
+  const id = toast.loading('Please wait...');
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(arg),
+    });
+    toast.update(id, {
+      render: 'Successful!',
+      type: 'success',
+      isLoading: false,
+      autoClose: 800,
+    });
+    if (mutate) {
+      mutate(url);
+    }
+  } catch (error) {
+    toast.update(id, {
+      render: `Failed.`,
+      type: 'error',
+      isLoading: false,
+      autoClose: 800,
+    });
+  }
+}
