@@ -22,7 +22,7 @@ const validationSchema = yup.object().shape({
     )
     .min(1, 'Array must contain at least one item')
     .max(5, 'Array exceeds maximum length'),
-  defaultPricePerNight: yup.number().required('A default price is required'),
+  pricePerNight: yup.number().required('A default price is required'),
   type: yup
     .string()
     .oneOf(roomTypeValues, 'Invalid room type')
@@ -36,7 +36,7 @@ const validationSchema = yup.object().shape({
 
 const initialValues: any = {
   roomNumbers: [],
-  defaultPricePerNight: '',
+  pricePerNight: '',
   type: '',
   customType: '',
 };
@@ -98,16 +98,13 @@ const AddRoomForm = () => {
                 ) : null}
                 <Field
                   as={TextField}
-                  name="defaultPricePerNight"
+                  name="pricePerNight"
                   label="Default Price/Night"
                   fullWidth
-                  error={
-                    !!errors.defaultPricePerNight &&
-                    touched.defaultPricePerNight
-                  }
+                  error={!!errors.pricePerNight && touched.pricePerNight}
                   helperText={
-                    errors.defaultPricePerNight && (
-                      <ErrorMessage name="defaultPricePerNight" />
+                    errors.pricePerNight && (
+                      <ErrorMessage name="pricePerNight" />
                     )
                   }
                   sx={{ marginBottom: '1rem' }}
