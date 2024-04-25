@@ -52,7 +52,9 @@ const AddHotelForm = () => {
   const { mutate } = useSWRConfig();
 
   const handleSubmit = (values) => {
-    sendRequest(`${import.meta.env.VITE_API}/hotels`, values, toast, mutate);
+    sendRequest(`${import.meta.env.VITE_API}/hotels`, values, () =>
+      mutate(`${import.meta.env.VITE_API}/hotels`)
+    );
   };
 
   const { data: userList, isLoading: isLoadingUser } = useSWR(

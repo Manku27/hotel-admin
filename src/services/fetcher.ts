@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import { getAuth } from './auth-service';
 
 const authData = getAuth();
@@ -23,7 +24,7 @@ export const getFetcher = async (url) => {
   return res.json();
 };
 
-export async function sendRequest(url, arg, toast, mutate) {
+export async function sendRequest(url, arg, successCallback) {
   const id = toast.loading('Please wait...');
   try {
     await fetch(url, {
@@ -40,8 +41,8 @@ export async function sendRequest(url, arg, toast, mutate) {
       isLoading: false,
       autoClose: 800,
     });
-    if (mutate) {
-      mutate(url);
+    if (successCallback) {
+      successCallback();
     }
   } catch (error) {
     toast.update(id, {

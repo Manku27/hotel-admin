@@ -13,6 +13,8 @@ import * as yup from 'yup';
 import { AddRoom } from './roomTypes';
 import { ROOM_TYPE_LIST, RoomType, roomTypeValues } from './roomConstants';
 import { SyntheticEvent } from 'react';
+import { sendRequest } from '../services/fetcher';
+import { useSWRConfig } from 'swr';
 
 const validationSchema = yup.object().shape({
   roomNumbers: yup
@@ -41,13 +43,29 @@ const initialValues: any = {
   customType: '',
 };
 
-const AddRoomForm = () => {
+interface Props {
+  hotelId: number;
+}
+
+const AddRoomForm = ({ hotelId }: Props) => {
+  const { mutate } = useSWRConfig();
+
   const handleSubmit = (values: AddRoom) => {
-    console.log('Room form:', values);
+    const payload = values.roomNumbers.map((room) => {
+      return {
+        roomNumber: room,
+        type: values.type,
+        customType: values.customType,
+        pricePerNight: values.pricePerNight,
+      };
+    });
+    sendRequest(`${import.meta.env.VITE_API}/rooms/${hotelId}`, payload, () =>
+      mutate(`${import.meta.env.VITE_API}/hotels`)
+    );
   };
 
   return (
-    <Container maxWidth="sm" sx={{ padding: '6rem' }}>
+    <Container maxWidth={false} sx={{ padding: '2' }}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Formik
