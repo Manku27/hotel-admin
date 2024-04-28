@@ -1,8 +1,8 @@
 import {
   Autocomplete,
   Button,
+  Card,
   Chip,
-  Container,
   Grid,
   TextField,
   Typography,
@@ -68,21 +68,21 @@ const AddHotelForm = () => {
   const USERS = getUserList(userList) || [];
 
   return (
-    <Container maxWidth={false} sx={{ padding: '6rem' }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-            validateOnBlur={false}
-          >
-            {({ errors, setFieldValue, touched }) => {
-              return (
-                <Form>
-                  <Typography variant="h6" gutterBottom>
-                    Add Hotel
-                  </Typography>
+    <Card sx={{ m: 2, p: 2 }}>
+      <Typography variant="h6" gutterBottom>
+        Add Hotel
+      </Typography>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        validateOnBlur={false}
+      >
+        {({ errors, setFieldValue, touched }) => {
+          return (
+            <Form>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
                   <Field
                     as={TextField}
                     id="name"
@@ -94,6 +94,8 @@ const AddHotelForm = () => {
                     sx={{ marginBottom: '1rem' }}
                     required
                   />
+                </Grid>
+                <Grid item xs={4}>
                   <Field
                     as={TextField}
                     id="address"
@@ -106,7 +108,9 @@ const AddHotelForm = () => {
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
-                  />
+                  />{' '}
+                </Grid>
+                <Grid item xs={4}>
                   <Field
                     as={TextField}
                     id="gstNumber"
@@ -118,7 +122,9 @@ const AddHotelForm = () => {
                       errors.gstNumber && <ErrorMessage name="gstNumber" />
                     }
                     sx={{ marginBottom: '1rem' }}
-                  />
+                  />{' '}
+                </Grid>
+                <Grid item xs={9}>
                   <Autocomplete
                     clearIcon={false}
                     options={USERS}
@@ -143,7 +149,7 @@ const AddHotelForm = () => {
                     sx={{ marginBottom: '1rem' }}
                     renderInput={(params) => (
                       <TextField
-                        label="Employees (Hit enter after every entry)"
+                        label="Employees"
                         {...params}
                         error={!!errors.employeeIds && !!touched.employeeIds}
                         helperText={
@@ -155,6 +161,8 @@ const AddHotelForm = () => {
                       />
                     )}
                   />
+                </Grid>
+                <Grid item xs={3}>
                   <Button
                     type="submit"
                     variant="contained"
@@ -164,13 +172,13 @@ const AddHotelForm = () => {
                   >
                     Submit
                   </Button>
-                </Form>
-              );
-            }}
-          </Formik>
-        </Grid>
-      </Grid>
-    </Container>
+                </Grid>
+              </Grid>
+            </Form>
+          );
+        }}
+      </Formik>
+    </Card>
   );
 };
 

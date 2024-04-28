@@ -1,6 +1,7 @@
 import { Button, Container } from '@mui/material';
 import { lazy, useState } from 'react';
 import HotelList from './HotelList';
+import LazyComponentWrapper from '../routing/LazyComponentWrapper';
 
 const AddHotelForm = lazy(() => import('./AddHotelForm'));
 
@@ -11,16 +12,26 @@ const Hotels = () => {
       maxWidth={false}
       sx={{
         display: 'flex',
+        height: '100%',
         flexDirection: 'column',
-        height: '100vh',
-        justifyContent: 'center',
-        p: 10,
+        justifyContent: 'flex-start',
+        backgroundColor: '#e0e0e0',
       }}
     >
       <h1>Hotels</h1>
-      <Button onClick={() => setAddHotel(!addHotel)}>Add Hotel</Button>
+      <Button
+        onClick={() => setAddHotel(!addHotel)}
+        variant="contained"
+        color="primary"
+      >
+        Add Hotel
+      </Button>
       <HotelList />
-      {addHotel ? <AddHotelForm /> : null}
+      {addHotel ? (
+        <LazyComponentWrapper>
+          <AddHotelForm />
+        </LazyComponentWrapper>
+      ) : null}
     </Container>
   );
 };
