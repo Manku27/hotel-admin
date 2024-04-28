@@ -64,7 +64,7 @@ const EmployeeForm = () => {
   };
 
   return (
-    <PageCenter sx={{ height: '100%' }}>
+    <PageCenter>
       <Card sx={{ m: 2, p: 2 }}>
         <Formik
           initialValues={initialValues}

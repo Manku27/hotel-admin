@@ -9,8 +9,9 @@ const Employees = () => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100vh',
+        height: '100%',
         justifyContent: 'center',
+        backgroundColor: '#e0e0e0',
       }}
     >
       <h1>User management</h1>
