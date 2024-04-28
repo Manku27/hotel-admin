@@ -15,4 +15,22 @@ function removeAuth() {
   localStorage.removeItem(AUTH_KEY);
 }
 
-export { setAuth, getAuth, removeAuth };
+async function logout() {
+  const url = `${import.meta.env.VITE_API}/auth/logout`;
+  const authData = getAuth();
+  const token = authData ? authData.accessToken : null;
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    removeAuth();
+  } finally {
+    window.location.reload();
+  }
+}
+
+export { setAuth, getAuth, removeAuth, logout };
