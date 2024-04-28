@@ -37,11 +37,9 @@ const EmployeeTable = () => {
   const rows = data || [];
 
   return (
-    <PageCenter>
-      <Card sx={{ width: '60vw' }}>
-        <DataGrid rows={rows} columns={columns} loading={isLoading} />
-      </Card>
-    </PageCenter>
+    <Card sx={{ m: 2 }}>
+      <DataGrid rows={rows} columns={columns} loading={isLoading} />
+    </Card>
   );
 };
 export default EmployeeTable;

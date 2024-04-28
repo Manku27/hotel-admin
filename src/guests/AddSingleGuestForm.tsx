@@ -165,7 +165,7 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                   />
                 </Grid>
                 <Grid item xs={4}></Grid>
-                <Grid item xs={4}>
+                <Grid item xs={5} sx={{ textAlign: 'left' }}>
                   <FileUploadButton
                     title="Id upload"
                     name="govIDFilePath"
@@ -175,7 +175,7 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                     isSubmitting={isSubmitting}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={5} sx={{ textAlign: 'left' }}>
                   <FileUploadButton
                     title="Photo upload"
                     name="pictureFilePath"
@@ -185,7 +185,7 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                     isSubmitting={isSubmitting}
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={2}>
                   <Button
                     type="submit"
                     variant="contained"

@@ -7,6 +7,7 @@ import {
   Grid,
   InputAdornment,
   TextField,
+  Typography,
 } from '@mui/material';
 import AddGuestsForm from '../guests/AddGuestsForm';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
@@ -76,8 +77,17 @@ const BookingForm = () => {
   };
 
   return (
-    <Box sx={{ backgroundColor: '#e0e0e0', p: 2, height: '100%' }}>
-      <h1>Booking</h1>
+    <Box
+      sx={{
+        backgroundColor: '#e0e0e0',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '85%',
+      }}
+    >
+      <Typography variant="h3" sx={{ m: 1 }}>
+        Booking
+      </Typography>
       <AddGuestsForm
         guestList={guestList}
         handleAddGuest={handleAddGuest}
@@ -96,7 +106,7 @@ const BookingForm = () => {
           {({ errors, touched, setFieldValue, values }) => {
             return (
               <Form>
-                <Grid container spacing={2}>
+                <Grid container spacing={2} alignItems="center">
                   <Grid item xs={4}>
                     <Autocomplete
                       id="roomNo"
@@ -110,7 +120,7 @@ const BookingForm = () => {
                       renderInput={(params) => (
                         <TextField
                           margin="normal"
-                          label="Room Types"
+                          label="Room Numbers"
                           name="roomNo"
                           error={!!errors.roomNo}
                           helperText={
@@ -120,7 +130,7 @@ const BookingForm = () => {
                           required
                         />
                       )}
-                      sx={{ marginBottom: '1rem' }}
+                      sx={{ marginBottom: 1 }}
                     />
                   </Grid>
                   <Grid item xs={4}>

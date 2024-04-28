@@ -1,8 +1,9 @@
-import { Box, Card, Grid } from '@mui/material';
+import { Box, Button, Card, Grid, Typography } from '@mui/material';
 import AddSingleGuestForm from './AddSingleGuestForm';
 import { guestInitialValues } from './guestConstants';
 import { GuestForm } from './guestsType';
 
+import DeleteIcon from '@mui/icons-material/Delete';
 interface Props {
   guestList: GuestForm[];
   handleAddGuest: (data: GuestForm) => void;
@@ -25,10 +26,21 @@ const AddGuestsForm = ({
           {guestList.map((item, index) => (
             <Grid item xs={3} key={index}>
               <Card sx={{ m: 2, p: 2, flex: 1, textAlign: 'left' }}>
-                <h3>{`${item.firstName} ${item.lastName}`}</h3>
-                <h4>{`Age : ${item.age}`}</h4>
-                <h4>{`${item.mobileNo}`}</h4>
-                <button onClick={() => handleRemoveGuest(index)}>Delete</button>
+                <Typography variant="h5">{`${item.firstName} ${item.lastName}`}</Typography>
+                <Typography variant="body2">{`Age : ${item.age}`}</Typography>
+                <Box
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="end"
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{ mb: 0.5 }}
+                  >{`Phone : ${item.mobileNo}`}</Typography>
+                  <Button onClick={() => handleRemoveGuest(index)}>
+                    <DeleteIcon sx={{ display: 'flex', mr: 1 }} />
+                  </Button>
+                </Box>
               </Card>
             </Grid>
           ))}

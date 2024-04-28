@@ -18,7 +18,12 @@ export const getFetcher = async (url) => {
   });
 
   if (!res.ok) {
-    throw new Error('Failed to fetch data');
+    toast('Oops! Contact us about this', {
+      type: 'error',
+      isLoading: false,
+      autoClose: 800,
+    });
+    throw new Error('Oops! Contact us about this.');
   }
 
   return res.json();

@@ -1,27 +1,30 @@
 import useSWR from 'swr';
 import { getFetcher } from '../services/fetcher';
-import { Container, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Hotel } from './hotelTypes';
 import { HotelItem } from './HotelItem';
-import LazyComponentWrapper from '../routing/LazyComponentWrapper';
+import { ScriptLoadingFallback } from '../routing/ScriptLoadingFallback';
 
 const HotelList = () => {
-  const { data } = useSWR(`${import.meta.env.VITE_API}/hotels`, getFetcher, {
-    revalidateOnFocus: false,
-  });
+  const { data, isLoading } = useSWR(
+    `${import.meta.env.VITE_API}/hotels`,
+    getFetcher,
+    {
+      revalidateOnFocus: false,
+    }
+  );
 
-  const hotels: Hotel[] = data || [];
-
+  if (isLoading) {
+    return <ScriptLoadingFallback />;
+  }
   return (
-    <Container maxWidth={false} sx={{ maxHeight: '50%' }}>
-      <LazyComponentWrapper>
-        <Grid container spacing={2}>
-          {hotels.map((hotel) => (
-            <HotelItem key={hotel.id} hotel={hotel} />
-          ))}
-        </Grid>
-      </LazyComponentWrapper>
-    </Container>
+    <>
+      <Grid container spacing={2}>
+        {data.map((hotel: Hotel) => (
+          <HotelItem key={hotel.id} hotel={hotel} />
+        ))}
+      </Grid>
+    </>
   );
 };
 

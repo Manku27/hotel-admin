@@ -21,13 +21,14 @@ import { logout } from '../services/auth-service';
 import { Link } from 'react-router-dom';
 
 const pages = [
-  { label: 'Manage', to: '/hotels' },
+  { label: 'Hotels', to: '/hotels' },
+  { label: 'Employees', to: '/users' },
   { label: 'Book', to: '/booking/1' },
 ];
 
 const settings = [{ label: 'Logout', onClick: logout }];
 
-function ResponsiveAppBar() {
+function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   );
@@ -63,7 +64,12 @@ function ResponsiveAppBar() {
             Hotel-Admin
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: 'flex',
+            }}
+          >
             {pages.map((page) => (
               <Link key={page.label} to={page.to}>
                 <Button sx={{ my: 2, color: 'white', display: 'block' }}>
@@ -111,4 +117,4 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default Header;

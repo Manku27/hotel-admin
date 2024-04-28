@@ -1,3 +1,17 @@
+import {
+  red,
+  pink,
+  purple,
+  indigo,
+  cyan,
+  teal,
+  lime,
+  orange,
+  amber,
+  yellow,
+  lightGreen,
+} from '@mui/material/colors';
+
 export enum RoomType {
   SINGLE = 'SINGLE',
   DOUBLE = 'DOUBLE',
@@ -10,6 +24,20 @@ export enum RoomType {
   ADJACENT = 'ADJACENT',
   OTHER = 'OTHER',
 }
+
+export const RoomTypeColors = {
+  SINGLE: pink[100],
+  DOUBLE: purple[100],
+  TWIN: amber[100],
+  SUITE: orange[100],
+  DELUXE: lightGreen[100],
+  APARTMENT: yellow[100],
+  PENTHOUSE: indigo[100],
+  CONNECTING: cyan[100],
+  ADJACENT: teal[100],
+  OTHER: lime[100],
+  BOOKED: red[100],
+};
 
 enum RoomTypeLabel {
   SINGLE = 'Single',

@@ -13,18 +13,14 @@ import { AddHotel } from './hotelTypes';
 import { GST_REGEX } from './hotelConstants';
 import useSWR, { useSWRConfig } from 'swr';
 import { getFetcher, sendRequest } from '../services/fetcher';
-import { toast } from 'react-toastify';
 
 const validationSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
   address: yup.string().required('Address is required'),
-  gstNumber: yup
-    .string()
-    .required('GST number is required')
-    .matches(GST_REGEX, {
-      message: 'GST number is not valid',
-      excludeEmptyString: true,
-    }),
+  gstNumber: yup.string().matches(GST_REGEX, {
+    message: 'GST number is not valid',
+    excludeEmptyString: true,
+  }),
   employeeIds: yup
     .array()
     .of(yup.string().required('String is required'))
@@ -48,13 +44,18 @@ const getUserList = (userList) => {
   });
 };
 
-const AddHotelForm = () => {
+interface Props {
+  successCallback: () => void;
+}
+
+const AddHotelForm = ({ successCallback }: Props) => {
   const { mutate } = useSWRConfig();
 
   const handleSubmit = (values) => {
-    sendRequest(`${import.meta.env.VITE_API}/hotels`, values, () =>
-      mutate(`${import.meta.env.VITE_API}/hotels`)
-    );
+    sendRequest(`${import.meta.env.VITE_API}/hotels`, values, () => {
+      mutate(`${import.meta.env.VITE_API}/hotels`);
+      successCallback();
+    });
   };
 
   const { data: userList, isLoading: isLoadingUser } = useSWR(
@@ -140,7 +141,6 @@ const AddHotelForm = () => {
                       ))
                     }
                     onChange={(e, value) => {
-                      console.log(value);
                       setFieldValue(
                         'employeeIds',
                         value !== null ? value.map((item) => item.id) : ''

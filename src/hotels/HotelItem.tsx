@@ -1,8 +1,9 @@
-import { Button, Card, Grid } from '@mui/material';
+import { Box, Button, Card, Chip, Grid, Typography } from '@mui/material';
 import { lazy, useState } from 'react';
 import { Hotel } from './hotelTypes';
 import { Room } from '../rooms/roomTypes';
-import { RoomType } from '../rooms/roomConstants';
+import { RoomType, RoomTypeColors } from '../rooms/roomConstants';
+import { isEmptyObject } from '../services/checks';
 
 const AddRoomForm = lazy(() => import('../rooms/AddRoomForm'));
 
@@ -16,24 +17,59 @@ export const HotelItem = ({ hotel }: Props) => {
   return (
     <Grid item xs={6}>
       <Card sx={{ m: 2, p: 2, flex: 1 }}>
-        <h4> {hotel.name}</h4>
-        <h5> {hotel.address}</h5>
-        <Button onClick={() => setAddRom(!addRoom)}>Add Rooms</Button>
+        <Grid container spacing={2} sx={{ mb: 2 }}>
+          <Grid item xs={9}>
+            <Box textAlign="left" sx={{ mx: 1 }}>
+              <Typography variant="h5"> {hotel.name}</Typography>
+              <Typography variant="body2"> {hotel.address}</Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={3}>
+            <Button variant="contained" onClick={() => setAddRom(!addRoom)}>
+              <Typography variant="body2">Add Rooms</Typography>
+            </Button>
+          </Grid>
+          <Grid item xs={12} sx={{ textAlign: 'left' }}>
+            {hotel.employees.map((employee) => (
+              <Chip
+                label={`${employee.firstName} ${employee.lastName}`}
+                key={employee.id}
+                sx={{ mr: 1 }}
+              />
+            ))}
+          </Grid>
+        </Grid>
+
         <Grid container spacing={2}>
           {hotel.rooms.map((room: Room) => (
             <Grid item xs={4} key={room.id}>
-              <Card sx={{ m: 0.5, p: 0.5, flex: 1 }}>
-                <h5> {room.roomNumber}</h5>
-                <h6>
+              <Card
+                sx={{
+                  m: 0.5,
+                  p: 1,
+                  flex: 1,
+                  backgroundColor:
+                    RoomTypeColors[
+                      isEmptyObject(room.bookingMap) ? room.type : 'BOOKED'
+                    ],
+                }}
+              >
+                <Typography variant="body2"> {room.roomNumber}</Typography>
+                <Typography variant="body2">
                   {room.type === RoomType.OTHER ? room.customType : room.type}
-                </h6>
-                <h6>₹{room.pricePerNight}</h6>
+                </Typography>
+                <Typography variant="body2">₹{room.pricePerNight}</Typography>
               </Card>
             </Grid>
           ))}
         </Grid>
+        {addRoom ? (
+          <AddRoomForm
+            hotelId={hotel.id}
+            successCallback={() => setAddRom(false)}
+          />
+        ) : null}
       </Card>
-      {addRoom ? <AddRoomForm hotelId={hotel.id} /> : null}
     </Grid>
   );
 };

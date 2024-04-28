@@ -1,4 +1,4 @@
-import { Button, Container } from '@mui/material';
+import { Button, Container, Grid, Typography } from '@mui/material';
 import { lazy, useState } from 'react';
 import HotelList from './HotelList';
 import LazyComponentWrapper from '../routing/LazyComponentWrapper';
@@ -12,26 +12,31 @@ const Hotels = () => {
       maxWidth={false}
       sx={{
         display: 'flex',
-        height: '100%',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        minHeight: '85%',
         backgroundColor: '#e0e0e0',
       }}
     >
-      <h1>Hotels</h1>
-      <Button
-        onClick={() => setAddHotel(!addHotel)}
-        variant="contained"
-        color="primary"
-      >
-        Add Hotel
-      </Button>
-      <HotelList />
+      <Grid container spacing={1} sx={{ m: 1 }} alignItems="center">
+        <Grid item xs={10} sx={{ textAlign: 'left' }}>
+          <Typography variant="h3">Hotels</Typography>
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            onClick={() => setAddHotel(!addHotel)}
+            variant="contained"
+            color="primary"
+          >
+            Add Hotel
+          </Button>
+        </Grid>
+      </Grid>
       {addHotel ? (
         <LazyComponentWrapper>
-          <AddHotelForm />
+          <AddHotelForm successCallback={() => setAddHotel(false)} />
         </LazyComponentWrapper>
       ) : null}
+      <HotelList />
     </Container>
   );
 };

@@ -1,12 +1,11 @@
 import {
   Autocomplete,
   Button,
+  Card,
   Chip,
-  Container,
   Grid,
   InputAdornment,
   TextField,
-  Typography,
 } from '@mui/material';
 import { Formik, Form, ErrorMessage, Field } from 'formik';
 import * as yup from 'yup';
@@ -45,9 +44,10 @@ const initialValues: any = {
 
 interface Props {
   hotelId: number;
+  successCallback: () => void;
 }
 
-const AddRoomForm = ({ hotelId }: Props) => {
+const AddRoomForm = ({ hotelId, successCallback }: Props) => {
   const { mutate } = useSWRConfig();
 
   const handleSubmit = (values: AddRoom) => {
@@ -59,13 +59,16 @@ const AddRoomForm = ({ hotelId }: Props) => {
         pricePerNight: values.pricePerNight,
       };
     });
-    sendRequest(`${import.meta.env.VITE_API}/rooms/${hotelId}`, payload, () =>
-      mutate(`${import.meta.env.VITE_API}/hotels`)
-    );
+    sendRequest(`${import.meta.env.VITE_API}/rooms/${hotelId}`, payload, () => {
+      mutate(`${import.meta.env.VITE_API}/hotels`);
+      successCallback();
+    });
   };
 
   return (
-    <Container maxWidth={false} sx={{ padding: '2' }}>
+    <Card
+      sx={{ mt: 2, p: 2, flex: 1, boxShadow: '0px 0px 10px rgba(0,0,0,0.2)' }}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Formik
@@ -76,9 +79,6 @@ const AddRoomForm = ({ hotelId }: Props) => {
           >
             {({ setFieldValue, errors, values, touched }) => (
               <Form>
-                <Typography variant="h6" gutterBottom>
-                  Add Rooms
-                </Typography>
                 <Autocomplete
                   id="type"
                   options={ROOM_TYPE_LIST}
@@ -90,7 +90,7 @@ const AddRoomForm = ({ hotelId }: Props) => {
                   renderInput={(params) => (
                     <TextField
                       margin="normal"
-                      label="Room Types"
+                      label="Room Type"
                       name="type"
                       error={!!errors.type}
                       helperText={errors.type && <ErrorMessage name="type" />}
@@ -179,7 +179,7 @@ const AddRoomForm = ({ hotelId }: Props) => {
           </Formik>
         </Grid>
       </Grid>
-    </Container>
+    </Card>
   );
 };
 
