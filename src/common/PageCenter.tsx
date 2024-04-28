@@ -8,7 +8,7 @@ export const PageCenter = ({ children, ...sx }: any) => {
         justifyContent: 'center',
         alignItems: 'center',
         flex: 1,
-        height: '100vh',
+        height: '100%',
         backgroundColor: '#e0e0e0',
         ...sx,
       }}

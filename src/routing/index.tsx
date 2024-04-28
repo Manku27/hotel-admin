@@ -3,6 +3,7 @@ import LazyComponentWrapper from './LazyComponentWrapper';
 import { lazy } from 'react';
 import { PrivateRouteWrapper } from './PrivateRouteWrapper';
 import { Container } from '@mui/material';
+import ResponsiveAppBar from '../common/Header';
 
 const Hotels = lazy(() => import('../hotels/Hotels'));
 const BookingForm = lazy(() => import('../booking/BookingForm'));
@@ -24,7 +25,7 @@ export const routes = [
     element: <Hotels />,
   },
   {
-    path: '/booking',
+    path: '/booking/:hotelId',
     element: <BookingForm />,
   },
   {
@@ -45,11 +46,10 @@ export const router = createBrowserRouter(
       path: route.path,
       element: (
         <PrivateRouteWrapper isAuthReq={isAuthReqForRoute}>
-          <LazyComponentWrapper>
-            <Container maxWidth={false} sx={{ height: '100vh' }}>
-              {route.element}
-            </Container>
-          </LazyComponentWrapper>
+          <Container maxWidth={false} sx={{ height: '100vh' }}>
+            {isAuthReqForRoute ? <ResponsiveAppBar /> : null}
+            <LazyComponentWrapper>{route.element}</LazyComponentWrapper>
+          </Container>
         </PrivateRouteWrapper>
       ),
     };
