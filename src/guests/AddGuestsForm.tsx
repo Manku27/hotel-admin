@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Card, Grid } from '@mui/material';
 import AddSingleGuestForm from './AddSingleGuestForm';
 import { guestInitialValues } from './guestConstants';
 import { GuestForm } from './guestsType';
@@ -6,26 +6,34 @@ import { GuestForm } from './guestsType';
 interface Props {
   guestList: GuestForm[];
   handleAddGuest: (data: GuestForm) => void;
+  handleRemoveGuest: (data: number) => void;
 }
 
-const AddGuestsForm = ({ guestList, handleAddGuest }: Props) => {
+const AddGuestsForm = ({
+  guestList,
+  handleAddGuest,
+  handleRemoveGuest,
+}: Props) => {
   return (
     <Box>
-      {guestList.length > 0
-        ? guestList.map((item, index) => (
-            <AddSingleGuestForm
-              initialValues={item}
-              submitCallback={handleAddGuest}
-              key={index}
-              readOnly
-            />
-          ))
-        : null}
       <AddSingleGuestForm
         initialValues={guestInitialValues}
         submitCallback={handleAddGuest}
-        readOnly={false}
       />
+      {guestList.length > 0 ? (
+        <Grid container spacing={2}>
+          {guestList.map((item, index) => (
+            <Grid item xs={3} key={index}>
+              <Card sx={{ m: 2, p: 2, flex: 1, textAlign: 'left' }}>
+                <h3>{`${item.firstName} ${item.lastName}`}</h3>
+                <h4>{`Age : ${item.age}`}</h4>
+                <h4>{`${item.mobileNo}`}</h4>
+                <button onClick={() => handleRemoveGuest(index)}>Delete</button>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      ) : null}
     </Box>
   );
 };

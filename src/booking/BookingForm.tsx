@@ -1,7 +1,10 @@
 import {
+  Autocomplete,
   Box,
   Button,
+  Card,
   FormHelperText,
+  Grid,
   InputAdornment,
   TextField,
 } from '@mui/material';
@@ -13,6 +16,11 @@ import { SyntheticEvent, useState } from 'react';
 import dayjs from 'dayjs';
 import FormikDatePicker from '../common/FormikDatePicker';
 import { GuestForm } from '../guests/guestsType';
+import { useParams } from 'react-router-dom';
+import useSWR from 'swr';
+import { getFetcher } from '../services/fetcher';
+import { isEmptyObject } from '../services/checks';
+import { Room } from '../rooms/roomTypes';
 
 const validationSchema = yup.object().shape({
   roomNo: yup.string().required('Room number is required'),
@@ -30,6 +38,16 @@ const initialValues: RoomBooking = {
 };
 
 const BookingForm = () => {
+  const { hotelId } = useParams();
+
+  const { data: roomList } = useSWR(
+    hotelId ? `${import.meta.env.VITE_API}/rooms/hotel/${hotelId}` : null,
+    getFetcher
+  );
+
+  const availableRoomsList: Room[] =
+    roomList?.filter((room) => isEmptyObject(room.bookingMap)) || [];
+
   const [guestList, setGuestList] = useState<GuestForm[]>([]);
 
   const handleAddGuest = (newGuest: GuestForm) => {
@@ -37,8 +55,17 @@ const BookingForm = () => {
     setGuestList(currentGuestList);
   };
 
+  const handleRemoveGuest = (guestIndex: number) => {
+    const currentGuestList = [...guestList];
+    if (guestIndex >= 0 && guestIndex < currentGuestList.length) {
+      currentGuestList.splice(guestIndex, 1);
+    } else {
+      console.error('Index out of bounds');
+    }
+    setGuestList(currentGuestList);
+  };
+
   const handleSubmit = (values: RoomBooking) => {
-    // change date formats to toISOString()
     const preparedValues = {
       ...values,
       guestList: guestList,
@@ -49,68 +76,107 @@ const BookingForm = () => {
   };
 
   return (
-    <Box>
-      <AddGuestsForm guestList={guestList} handleAddGuest={handleAddGuest} />
+    <Box sx={{ backgroundColor: '#e0e0e0', p: 2, height: '100%' }}>
+      <h1>Booking</h1>
+      <AddGuestsForm
+        guestList={guestList}
+        handleAddGuest={handleAddGuest}
+        handleRemoveGuest={handleRemoveGuest}
+      />
       {guestList.length === 0 ? (
         <FormHelperText>Add at-least one guest</FormHelperText>
       ) : null}
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-        validateOnBlur={false}
-      >
-        {({ errors, touched }) => {
-          return (
-            <Form>
-              <Field
-                as={TextField}
-                id="roomNo"
-                name="roomNo"
-                label="Room No"
-                fullWidth
-                error={!!errors.roomNo}
-                helperText={errors.roomNo && <ErrorMessage name="roomNo" />}
-                sx={{ marginBottom: '1rem' }}
-                required
-              />
-              <FormikDatePicker name="checkInDate" label="Check In Date" />
-              <FormikDatePicker name="checkOutDate" label="Check Out Date" />
-              <Field
-                as={TextField}
-                name="finalPrice"
-                label="Final Price/Night"
-                fullWidth
-                error={!!errors.finalPrice && touched.finalPrice}
-                helperText={
-                  errors.finalPrice && <ErrorMessage name="finalPrice" />
-                }
-                sx={{ marginBottom: '1rem' }}
-                required
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">₹</InputAdornment>
-                  ),
-                }}
-                type="number"
-                onWheel={(e: SyntheticEvent) =>
-                  (e.target as HTMLElement).blur()
-                }
-              />
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                formNoValidate
-                disabled={guestList.length === 0}
-              >
-                Submit
-              </Button>
-            </Form>
-          );
-        }}
-      </Formik>
+      <Card sx={{ m: 2, p: 2 }}>
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+          validateOnBlur={false}
+        >
+          {({ errors, touched, setFieldValue, values }) => {
+            return (
+              <Form>
+                <Grid container spacing={2}>
+                  <Grid item xs={4}>
+                    <Autocomplete
+                      id="roomNo"
+                      options={availableRoomsList}
+                      getOptionLabel={(option) => `${option?.roomNumber}`}
+                      style={{ width: 300 }}
+                      onChange={(e, value) => {
+                        setFieldValue('roomNo', value?.roomNumber || '');
+                        setFieldValue('finalPrice', value?.pricePerNight || '');
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          margin="normal"
+                          label="Room Types"
+                          name="roomNo"
+                          error={!!errors.roomNo}
+                          helperText={
+                            errors.roomNo && <ErrorMessage name="roomNo" />
+                          }
+                          {...params}
+                          required
+                        />
+                      )}
+                      sx={{ marginBottom: '1rem' }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <FormikDatePicker
+                      name="checkInDate"
+                      label="Check In Date"
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <FormikDatePicker
+                      name="checkOutDate"
+                      label="Check Out Date"
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Field
+                      as={TextField}
+                      name="finalPrice"
+                      label="Final Price/Night"
+                      fullWidth
+                      error={!!errors.finalPrice && touched.finalPrice}
+                      helperText={
+                        errors.finalPrice && <ErrorMessage name="finalPrice" />
+                      }
+                      sx={{ marginBottom: '1rem' }}
+                      required
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">₹</InputAdornment>
+                        ),
+                      }}
+                      type="number"
+                      onWheel={(e: SyntheticEvent) =>
+                        (e.target as HTMLElement).blur()
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={4}></Grid>
+                  <Grid item xs={4}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      fullWidth
+                      formNoValidate
+                      disabled={guestList.length === 0}
+                    >
+                      Submit
+                    </Button>
+                  </Grid>
+                </Grid>
+              </Form>
+            );
+          }}
+        </Formik>
+      </Card>
     </Box>
   );
 };

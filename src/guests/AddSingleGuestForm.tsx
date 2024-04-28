@@ -1,7 +1,6 @@
 import {
-  Box,
   Button,
-  Container,
+  Card,
   FormControl,
   FormControlLabel,
   FormHelperText,
@@ -39,37 +38,30 @@ const validationSchema = yup.object().shape({
 interface Props {
   initialValues: GuestForm;
   submitCallback: (data: GuestForm) => void;
-  readOnly: boolean;
 }
 
-const AddSingleGuestForm = ({
-  initialValues,
-  submitCallback,
-  readOnly,
-}: Props) => {
+const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
   const handleSubmit = (values: GuestForm, { resetForm }) => {
     submitCallback(values);
     resetForm();
   };
 
   return (
-    <Container maxWidth="sm" sx={{ padding: '6rem' }}>
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <Formik
-            initialValues={initialValues}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-            validateOnBlur={false}
-          >
-            {({ errors, setValues, handleChange, values, isSubmitting }) => {
-              return (
-                <Form>
-                  {!readOnly ? (
-                    <Typography variant="h6" gutterBottom>
-                      Add Guest
-                    </Typography>
-                  ) : null}
+    <Card sx={{ m: 2, p: 2 }}>
+      <Typography variant="h6" gutterBottom>
+        Add Guest
+      </Typography>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+        validateOnBlur={false}
+      >
+        {({ errors, setValues, handleChange, values, isSubmitting }) => {
+          return (
+            <Form>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
                   <Field
                     as={TextField}
                     id="firstName"
@@ -82,8 +74,9 @@ const AddSingleGuestForm = ({
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
-                    disabled={readOnly}
                   />
+                </Grid>
+                <Grid item xs={4}>
                   <Field
                     as={TextField}
                     id="lastName"
@@ -96,8 +89,9 @@ const AddSingleGuestForm = ({
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
-                    disabled={readOnly}
                   />
+                </Grid>
+                <Grid item xs={4}>
                   <FormControl error={!!errors.gender}>
                     <FormLabel id="demo-row-radio-buttons-group-label">
                       Gender
@@ -113,25 +107,24 @@ const AddSingleGuestForm = ({
                         value="Female"
                         control={<Radio />}
                         label="Female"
-                        disabled={readOnly}
                       />
                       <FormControlLabel
                         value="Male"
                         control={<Radio />}
                         label="Male"
-                        disabled={readOnly}
                       />
                       <FormControlLabel
                         value="Others"
                         control={<Radio />}
                         label="Others"
-                        disabled={readOnly}
                       />
                     </Field>
                     <FormHelperText>
                       {errors.gender && <ErrorMessage name="gender" />}
                     </FormHelperText>
                   </FormControl>
+                </Grid>
+                <Grid item xs={4}>
                   <Field
                     as={TextField}
                     id="age"
@@ -146,8 +139,9 @@ const AddSingleGuestForm = ({
                     onWheel={(e: SyntheticEvent) =>
                       (e.target as HTMLElement).blur()
                     }
-                    disabled={readOnly}
                   />
+                </Grid>
+                <Grid item xs={4}>
                   <Field
                     as={TextField}
                     name="mobileNo"
@@ -168,51 +162,46 @@ const AddSingleGuestForm = ({
                     onWheel={(e: SyntheticEvent) =>
                       (e.target as HTMLElement).blur()
                     }
-                    disabled={readOnly}
                   />
-                  {readOnly ? (
-                    <Box>
-                      <Typography>{values.govIDFileName}</Typography>
-                      <Typography>{values.pictureFileName}</Typography>
-                    </Box>
-                  ) : (
-                    <Box>
-                      <FileUploadButton
-                        title="Id upload"
-                        name="govIDFilePath"
-                        error={errors.govIDFilePath}
-                        setValues={setValues}
-                        fileNameField="govIDFileName"
-                        isSubmitting={isSubmitting}
-                      />
-                      <FileUploadButton
-                        title="Photo upload"
-                        name="pictureFilePath"
-                        error={errors.pictureFilePath}
-                        setValues={setValues}
-                        fileNameField="pictureFileName"
-                        isSubmitting={isSubmitting}
-                      />
-                    </Box>
-                  )}
-                  {!readOnly ? (
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      fullWidth
-                      formNoValidate
-                    >
-                      Submit
-                    </Button>
-                  ) : null}
-                </Form>
-              );
-            }}
-          </Formik>
-        </Grid>
-      </Grid>
-    </Container>
+                </Grid>
+                <Grid item xs={4}></Grid>
+                <Grid item xs={4}>
+                  <FileUploadButton
+                    title="Id upload"
+                    name="govIDFilePath"
+                    error={errors.govIDFilePath}
+                    setValues={setValues}
+                    fileNameField="govIDFileName"
+                    isSubmitting={isSubmitting}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <FileUploadButton
+                    title="Photo upload"
+                    name="pictureFilePath"
+                    error={errors.pictureFilePath}
+                    setValues={setValues}
+                    fileNameField="pictureFileName"
+                    isSubmitting={isSubmitting}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    formNoValidate
+                  >
+                    Submit
+                  </Button>
+                </Grid>
+              </Grid>
+            </Form>
+          );
+        }}
+      </Formik>
+    </Card>
   );
 };
 
