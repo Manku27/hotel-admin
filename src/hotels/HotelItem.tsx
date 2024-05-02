@@ -4,6 +4,7 @@ import { Hotel } from './hotelTypes';
 import { Room } from '../rooms/roomTypes';
 import { RoomType, RoomTypeColors } from '../rooms/roomConstants';
 import { isEmptyObject } from '../services/checks';
+import LazyComponentWrapper from '../routing/LazyComponentWrapper';
 
 const AddRoomForm = lazy(() => import('../rooms/AddRoomForm'));
 
@@ -64,10 +65,12 @@ export const HotelItem = ({ hotel }: Props) => {
           ))}
         </Grid>
         {addRoom ? (
-          <AddRoomForm
-            hotelId={hotel.id}
-            successCallback={() => setAddRom(false)}
-          />
+          <LazyComponentWrapper>
+            <AddRoomForm
+              hotelId={hotel.id}
+              successCallback={() => setAddRom(false)}
+            />
+          </LazyComponentWrapper>
         ) : null}
       </Card>
     </Grid>
