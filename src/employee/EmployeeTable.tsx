@@ -1,5 +1,4 @@
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { PageCenter } from '../common/PageCenter';
 import { Card } from '@mui/material';
 import useSWR from 'swr';
 import { getFetcher } from '../services/fetcher';

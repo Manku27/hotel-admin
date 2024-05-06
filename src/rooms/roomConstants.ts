@@ -39,7 +39,7 @@ export const RoomTypeColors = {
   BOOKED: red[100],
 };
 
-enum RoomTypeLabel {
+export enum RoomTypeLabel {
   SINGLE = 'Single',
   DOUBLE = 'Double',
   TWIN = 'Twin',

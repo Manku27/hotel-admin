@@ -2,8 +2,11 @@ import { Box, Button, Card, Chip, Grid, Typography } from '@mui/material';
 import { lazy, useState } from 'react';
 import { Hotel } from './hotelTypes';
 import { Room } from '../rooms/roomTypes';
-import { RoomType, RoomTypeColors } from '../rooms/roomConstants';
-import { isEmptyObject } from '../services/checks';
+import {
+  RoomType,
+  RoomTypeColors,
+  RoomTypeLabel,
+} from '../rooms/roomConstants';
 import LazyComponentWrapper from '../routing/LazyComponentWrapper';
 
 const AddRoomForm = lazy(() => import('../rooms/AddRoomForm'));
@@ -50,14 +53,14 @@ export const HotelItem = ({ hotel }: Props) => {
                   p: 1,
                   flex: 1,
                   backgroundColor:
-                    RoomTypeColors[
-                      isEmptyObject(room.bookingMap) ? room.type : 'BOOKED'
-                    ],
+                    RoomTypeColors[room.availableToday ? room.type : 'BOOKED'],
                 }}
               >
                 <Typography variant="body2"> {room.roomNumber}</Typography>
                 <Typography variant="body2">
-                  {room.type === RoomType.OTHER ? room.customType : room.type}
+                  {room.type === RoomType.OTHER
+                    ? room.customType
+                    : RoomTypeLabel[room.type]}
                 </Typography>
                 <Typography variant="body2">₹{room.pricePerNight}</Typography>
               </Card>

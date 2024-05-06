@@ -47,7 +47,7 @@ const BookingForm = () => {
   );
 
   const availableRoomsList: Room[] =
-    roomList?.filter((room) => isEmptyObject(room.bookingMap)) || [];
+    roomList?.filter((room) => room.availableToday) || [];
 
   const [guestList, setGuestList] = useState<GuestForm[]>([]);
 
