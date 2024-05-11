@@ -9,7 +9,5 @@ export const guestInitialValues: GuestForm = {
   age: 20,
   mobileNo: '',
   govIDFilePath: '',
-  govIDFileName: '',
   pictureFilePath: '',
-  pictureFileName: '',
 };
