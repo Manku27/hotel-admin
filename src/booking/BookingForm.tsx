@@ -12,7 +12,7 @@ import {
 import AddGuestsForm from '../guests/AddGuestsForm';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as yup from 'yup';
-import { RoomBooking } from './bookingTypes';
+import { BookingPayload, RoomBooking } from './bookingTypes';
 import { SyntheticEvent, useState } from 'react';
 import dayjs from 'dayjs';
 import FormikDatePicker from '../common/FormikDatePicker';
@@ -73,6 +73,11 @@ const BookingForm = () => {
       checkInDate: values.checkInDate.toISOString(),
       checkOutDate: values.checkOutDate.toISOString(),
     };
+
+    // const payload: BookingPayload = {
+    //   guests : preparedValues.guestList,
+
+    // };
     console.log('booking form', preparedValues);
   };
 
