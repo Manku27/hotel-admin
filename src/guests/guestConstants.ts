@@ -8,6 +8,6 @@ export const guestInitialValues: GuestForm = {
   gender: 'Female',
   age: 20,
   mobileNo: '',
-  govIDFilePath: '',
-  pictureFilePath: '',
+  govtId: '',
+  picture: '',
 };

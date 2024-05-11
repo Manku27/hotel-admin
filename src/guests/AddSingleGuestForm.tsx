@@ -27,8 +27,8 @@ const validationSchema = yup.object().shape({
     .string()
     .oneOf(GENDER_LIST, 'Invalid gender')
     .required('Gender is required'),
-  govIDFilePath: yup.string().required('Government Id is required'),
-  pictureFilePath: yup.string().required('Picture is required'),
+  govtId: yup.string().required('Government Id is required'),
+  picture: yup.string().required('Picture is required'),
   mobileNo: yup.string().matches(PHONE_REGEX, {
     message: 'Mobile no. is not valid',
     excludeEmptyString: true,
@@ -168,8 +168,8 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                 <Grid item xs={5} sx={{ textAlign: 'left' }}>
                   <FileUploadButton
                     title="Id upload"
-                    name="govIDFilePath"
-                    error={errors.govIDFilePath}
+                    name="govtId"
+                    error={errors.govtId}
                     setValues={setValues}
                     isSubmitting={isSubmitting}
                   />
@@ -177,8 +177,8 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                 <Grid item xs={5} sx={{ textAlign: 'left' }}>
                   <FileUploadButton
                     title="Photo upload"
-                    name="pictureFilePath"
-                    error={errors.pictureFilePath}
+                    name="picture"
+                    error={errors.picture}
                     setValues={setValues}
                     isSubmitting={isSubmitting}
                   />
