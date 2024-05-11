@@ -27,8 +27,8 @@ async function logout() {
         Authorization: `Bearer ${token}`,
       },
     });
-    removeAuth();
   } finally {
+    removeAuth();
     window.location.reload();
   }
 }
