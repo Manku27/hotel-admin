@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { getAuth } from './auth-service';
+import { getAuth, logout } from './auth-service';
 
 const authData = getAuth();
 const token = authData ? authData.accessToken : null;
@@ -23,6 +23,11 @@ export const getFetcher = async (url) => {
       isLoading: false,
       autoClose: 800,
     });
+
+    if (res.status === 401) {
+      // Perform refetch token operation
+      logout();
+    }
     throw new Error('Oops! Contact us about this.');
   }
 
