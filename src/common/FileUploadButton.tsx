@@ -8,7 +8,6 @@ interface Props {
   name: string;
   setValues: (...data: any) => void;
   error: any;
-  fileNameField: string;
   isSubmitting: boolean;
 }
 
@@ -16,36 +15,21 @@ export const FileUploadButton = ({
   title,
   error,
   name,
-  fileNameField,
   setValues,
   isSubmitting,
 }: Props) => {
   const [file, setFile] = useState<File | null>(null);
 
-  const uploadFile = async (newFile) => {
-    // const formData = new FormData();
-    // formData.append('file', newFile);
-
-    // try {
-    //   setUploadUrl()
-    // } catch (error) {
-
-    // }
-
-    setValues((prev) => {
-      return {
-        ...prev,
-        [name]: `thisisfilepathfor-${name}`,
-        [fileNameField]: newFile?.name,
-      };
-    });
-  };
-
   const handleFileChange = (e) => {
     const newFile = e.target.files ? e.target.files[0] : null;
     setFile(newFile);
     if (newFile) {
-      uploadFile(newFile);
+      setValues((prev) => {
+        return {
+          ...prev,
+          [name]: newFile,
+        };
+      });
     }
   };
 

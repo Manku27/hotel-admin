@@ -171,7 +171,6 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                     name="govIDFilePath"
                     error={errors.govIDFilePath}
                     setValues={setValues}
-                    fileNameField="govIDFileName"
                     isSubmitting={isSubmitting}
                   />
                 </Grid>
@@ -181,7 +180,6 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                     name="pictureFilePath"
                     error={errors.pictureFilePath}
                     setValues={setValues}
-                    fileNameField="pictureFileName"
                     isSubmitting={isSubmitting}
                   />
                 </Grid>
