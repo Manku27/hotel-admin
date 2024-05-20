@@ -8,12 +8,16 @@ import {
   RoomTypeLabel,
 } from '../rooms/roomConstants';
 import LazyComponentWrapper from '../routing/LazyComponentWrapper';
+import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 
 const AddRoomForm = lazy(() => import('../rooms/AddRoomForm'));
 
 interface Props {
   hotel: Hotel;
 }
+
+const today = dayjs();
 
 export const HotelItem = ({ hotel }: Props) => {
   const [addRoom, setAddRom] = useState(false);
@@ -24,7 +28,12 @@ export const HotelItem = ({ hotel }: Props) => {
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={9}>
             <Box textAlign="left" sx={{ mx: 1 }}>
-              <Typography variant="h5"> {hotel.name}</Typography>
+              <Link
+                to={`/hotels/${hotel.id}?year=${today.year()}&month=${today.month() + 1}`}
+                style={{ textDecoration: 'none', color: '#01579b' }}
+              >
+                <Typography variant="h5"> {hotel.name}</Typography>
+              </Link>
               <Typography variant="body2"> {hotel.address}</Typography>
             </Box>
           </Grid>
@@ -52,8 +61,7 @@ export const HotelItem = ({ hotel }: Props) => {
                   m: 0.5,
                   p: 1,
                   flex: 1,
-                  backgroundColor:
-                    RoomTypeColors[room.availableToday ? room.type : 'BOOKED'],
+                  backgroundColor: RoomTypeColors[room.type],
                 }}
               >
                 <Typography variant="body2"> {room.roomNumber}</Typography>
