@@ -24,7 +24,6 @@ const pages = [
   { label: 'Hotels', to: '/hotels' },
   { label: 'Employees', to: '/users' },
   { label: 'Book', to: '/booking/1' },
-  { label: 'Available', to: '/hotels/1' },
 ];
 
 const settings = [{ label: 'Logout', onClick: logout }];
