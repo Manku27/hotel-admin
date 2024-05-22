@@ -4,7 +4,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers';
 import { FormHelperText } from '@mui/material';
 
-const FormikDatePicker = ({ name, ...otherProps }: any) => {
+const FormikDatePicker = ({ name, sideEffect, ...otherProps }: any) => {
   return (
     <Field name={name}>
       {({ field, form: { setFieldValue, errors } }) => (
@@ -13,6 +13,7 @@ const FormikDatePicker = ({ name, ...otherProps }: any) => {
             value={field.value ? field.value : null}
             onChange={(value) => {
               setFieldValue(field.name, value ? value : '');
+              sideEffect(value);
             }}
             {...otherProps}
           />

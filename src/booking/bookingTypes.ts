@@ -7,22 +7,21 @@ export interface RoomBooking {
   checkInDate: Dayjs;
   checkOutDate: Dayjs;
   finalPrice?: string; // final price agreed on
+  id: string;
+  type?: string;
 }
 
 export interface BookingPayload {
   booking: {
-    checkInDate: Dayjs;
-    checkOutDate: Dayjs;
+    checkInDate: string;
+    checkOutDate: string;
     bookedRooms: {
       roomNumber: number | string;
-      id: number;
+      id: string;
     }[];
     roomPrice: {
-      [roomId: string | number]: number; //nothing for default
+      [roomId: string]: number; //nothing for default
     };
   };
-  guests: {
-    name: string;
-    mobileNo: string;
-  }[];
+  guests: Guest[];
 }

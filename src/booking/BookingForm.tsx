@@ -19,9 +19,9 @@ import FormikDatePicker from '../common/FormikDatePicker';
 import { GuestForm } from '../guests/guestsType';
 import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
-import { getFetcher } from '../services/fetcher';
-import { isEmptyObject } from '../services/checks';
+import { getFetcher, sendRequest } from '../services/fetcher';
 import { Room } from '../rooms/roomTypes';
+import { RoomType, RoomTypeLabel } from '../rooms/roomConstants';
 
 const validationSchema = yup.object().shape({
   roomNo: yup.string().required('Room number is required'),
@@ -30,24 +30,32 @@ const validationSchema = yup.object().shape({
   finalPrice: yup.string().required('Final price is required'),
 });
 
+const today = dayjs();
+
 const initialValues: RoomBooking = {
   guestList: [],
   roomNo: '',
-  checkInDate: dayjs(),
-  checkOutDate: dayjs(),
+  checkInDate: today,
+  checkOutDate: today.add(1, 'day'),
   finalPrice: '',
+  id: '',
+  type: '',
 };
 
 const BookingForm = () => {
   const { hotelId } = useParams();
 
+  const [checkIn, setCheckIn] = useState(today);
+  const [checkOut, setCheckOut] = useState(today.add(1, 'day'));
+
   const { data: roomList } = useSWR(
-    hotelId ? `${import.meta.env.VITE_API}/rooms/hotel/${hotelId}` : null,
+    hotelId
+      ? `${import.meta.env.VITE_API}/rooms/available?startDate=${checkIn.format('DD-MM-YYYY')}&endDate=${checkOut.format('DD-MM-YYYY')}&hotelIds=${hotelId}`
+      : null,
     getFetcher
   );
 
-  const availableRoomsList: Room[] =
-    roomList?.filter((room) => room.availableToday) || [];
+  const availableRoomsList: Room[] = roomList || [];
 
   const [guestList, setGuestList] = useState<GuestForm[]>([]);
 
@@ -67,18 +75,28 @@ const BookingForm = () => {
   };
 
   const handleSubmit = (values: RoomBooking) => {
-    const preparedValues = {
-      ...values,
-      guestList: guestList,
-      checkInDate: values.checkInDate.toISOString(),
-      checkOutDate: values.checkOutDate.toISOString(),
+    const payload: BookingPayload = {
+      guests: guestList,
+      booking: {
+        checkInDate: values.checkInDate.toISOString(),
+        checkOutDate: values.checkOutDate.toISOString(),
+        bookedRooms: [
+          {
+            roomNumber: values.roomNo,
+            id: values.id,
+          },
+        ],
+        roomPrice: {
+          [values.id]: values.finalPrice,
+        },
+      },
     };
 
-    // const payload: BookingPayload = {
-    //   guests : preparedValues.guestList,
+    console.log(payload);
 
-    // };
-    console.log('booking form', preparedValues);
+    sendRequest(`${import.meta.env.VITE_API}/bookings`, payload, () => {
+      console.log('much success');
+    });
   };
 
   return (
@@ -109,10 +127,38 @@ const BookingForm = () => {
           validateOnBlur={false}
         >
           {({ errors, touched, setFieldValue, values }) => {
+            const handleCheckInDate = (value) => {
+              setCheckIn(value);
+              if (value.isAfter(checkOut)) {
+                const nextday = value.add(1, 'day');
+                setCheckOut(nextday);
+                setFieldValue('checkOutDate', nextday);
+              }
+            };
+
+            const handleCheckOutDate = (value) => {
+              setCheckOut(value);
+            };
             return (
               <Form>
                 <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={4}>
+                  <Grid item xs={3}>
+                    <FormikDatePicker
+                      name="checkInDate"
+                      label="Check In Date"
+                      sideEffect={handleCheckInDate}
+                      minDate={today}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <FormikDatePicker
+                      name="checkOutDate"
+                      label="Check Out Date"
+                      sideEffect={handleCheckOutDate}
+                      minDate={checkIn.add(1, 'day')}
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
                     <Autocomplete
                       id="roomNo"
                       options={availableRoomsList}
@@ -120,7 +166,16 @@ const BookingForm = () => {
                       style={{ width: 300 }}
                       onChange={(e, value) => {
                         setFieldValue('roomNo', value?.roomNumber || '');
+                        setFieldValue('id', value?.id || '');
                         setFieldValue('finalPrice', value?.pricePerNight || '');
+                        setFieldValue(
+                          'type',
+                          value
+                            ? value.type === RoomType.OTHER
+                              ? value.customType
+                              : value.type
+                            : ''
+                        );
                       }}
                       renderInput={(params) => (
                         <TextField
@@ -138,16 +193,12 @@ const BookingForm = () => {
                       sx={{ marginBottom: 1 }}
                     />
                   </Grid>
-                  <Grid item xs={4}>
-                    <FormikDatePicker
-                      name="checkInDate"
-                      label="Check In Date"
-                    />
-                  </Grid>
-                  <Grid item xs={4}>
-                    <FormikDatePicker
-                      name="checkOutDate"
-                      label="Check Out Date"
+                  <Grid item xs={3}>
+                    <TextField
+                      margin="normal"
+                      label="Type"
+                      name="type"
+                      value={RoomTypeLabel[values?.type || '']}
                     />
                   </Grid>
                   <Grid item xs={4}>
