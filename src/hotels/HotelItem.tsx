@@ -17,8 +17,6 @@ interface Props {
   hotel: Hotel;
 }
 
-const today = dayjs();
-
 export const HotelItem = ({ hotel }: Props) => {
   const [addRoom, setAddRom] = useState(false);
 
@@ -29,7 +27,7 @@ export const HotelItem = ({ hotel }: Props) => {
           <Grid item xs={9}>
             <Box textAlign="left" sx={{ mx: 1 }}>
               <Link
-                to={`/hotels/${hotel.id}?year=${today.year()}&month=${today.month() + 1}`}
+                to={`/hotels/${hotel.id}`}
                 style={{ textDecoration: 'none', color: '#01579b' }}
               >
                 <Typography variant="h5"> {hotel.name}</Typography>
