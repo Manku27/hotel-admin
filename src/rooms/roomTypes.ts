@@ -7,13 +7,12 @@ export interface Room {
   type: RoomType;
   pricePerNight: number;
   customType?: string; // for RoomType.OTHERS
-  bookingMap: { [date: string]: boolean };
-  availableToday: boolean;
+  unavailableDays: string[];
 }
 
 export type AddRoom = Omit<
   Room,
-  'roomNumber' | 'hotelId' | 'id' | 'bookingMap' | 'availableToday'
+  'roomNumber' | 'hotelId' | 'id' | 'unavailableDays'
 > & {
   roomNumbers: string[];
 };
