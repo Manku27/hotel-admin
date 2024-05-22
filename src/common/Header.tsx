@@ -23,7 +23,6 @@ import { Link } from 'react-router-dom';
 const pages = [
   { label: 'Hotels', to: '/hotels' },
   { label: 'Employees', to: '/users' },
-  { label: 'Book', to: '/booking/1' },
 ];
 
 const settings = [{ label: 'Logout', onClick: logout }];
@@ -43,9 +42,9 @@ function Header() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container maxWidth={false}>
         <Toolbar disableGutters>
-          <HotelIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <HotelIcon sx={{ mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -53,7 +52,6 @@ function Header() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',

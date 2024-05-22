@@ -135,7 +135,9 @@ const BookingForm = () => {
         handleRemoveGuest={handleRemoveGuest}
       />
       {guestList.length === 0 ? (
-        <FormHelperText>Add at-least one guest</FormHelperText>
+        <FormHelperText sx={{ textAlign: 'center' }}>
+          Add at-least one guest
+        </FormHelperText>
       ) : null}
       <Card sx={{ m: 2, p: 2 }}>
         <Formik
