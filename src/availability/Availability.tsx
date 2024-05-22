@@ -1,5 +1,13 @@
-import { Box, Card, Container, Tooltip, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Card,
+  Container,
+  Grid,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import { Link, useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { getFetcher } from '../services/fetcher';
 import dayjs from 'dayjs';
@@ -164,10 +172,24 @@ function Availability() {
         backgroundColor: '#e0e0e0',
       }}
     >
-      <Typography variant="h3" sx={{ m: 2 }}>
-        Availability for {hotelId}
-      </Typography>
-      <Box display="flex" justifyContent="flex-end" alignItems="center">
+      <Grid container spacing={1} sx={{ my: 1, pl: '8px' }} alignItems="center">
+        <Grid item xs={10} sx={{ textAlign: 'left' }}>
+          <Typography variant="h3">Availability for {hotelId}</Typography>
+        </Grid>
+        <Grid item xs={2} sx={{ textAlign: 'right' }}>
+          <Link to={`/booking/${hotelId}`}>
+            <Button variant="contained" color="primary">
+              Make Bookings
+            </Button>
+          </Link>
+        </Grid>
+      </Grid>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        sx={{ my: 1 }}
+        alignItems="center"
+      >
         <Typography variant="h4" sx={{ mx: 1, textAlign: 'right' }}>
           {months[month]}
         </Typography>
@@ -194,7 +216,6 @@ function Availability() {
           />
         </Box>
       </Box>
-
       <Card sx={{ m: 1 }}>
         <DataGrid
           rows={roomList}
