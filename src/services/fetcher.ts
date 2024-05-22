@@ -63,3 +63,29 @@ export async function sendRequest(url, arg, successCallback) {
     });
   }
 }
+
+export async function sendBookingRequest(url, arg) {
+  const id = toast.loading('Please wait...');
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: arg,
+    });
+    toast.update(id, {
+      render: 'Successful!',
+      type: 'success',
+      isLoading: false,
+      autoClose: 800,
+    });
+  } catch (error) {
+    toast.update(id, {
+      render: `Failed.`,
+      type: 'error',
+      isLoading: false,
+      autoClose: 800,
+    });
+  }
+}

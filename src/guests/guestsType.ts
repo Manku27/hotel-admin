@@ -6,8 +6,8 @@ export interface Guest {
   gender: Gender;
   age: number;
   mobileNo: string; // one for the group
-  govtId: string; // for minor also
-  picture: string;
+  govtId: File; // for minor also
+  picture: File;
 }
 
 export interface GuestForm extends Guest {}

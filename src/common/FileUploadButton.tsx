@@ -49,7 +49,13 @@ export const FileUploadButton = ({
         startIcon={<CloudUploadIcon />}
       >
         {title}
-        <input type="file" hidden onChange={handleFileChange} />
+        <input
+          type="file"
+          name={name}
+          hidden
+          onChange={handleFileChange}
+          onClick={(event) => ((event.target as any).value = '')}
+        />
       </Button>
       {file ? <Typography>{file.name}</Typography> : null}
       {error ? (

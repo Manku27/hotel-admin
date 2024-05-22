@@ -27,8 +27,8 @@ const validationSchema = yup.object().shape({
     .string()
     .oneOf(GENDER_LIST, 'Invalid gender')
     .required('Gender is required'),
-  govtId: yup.string().required('Government Id is required'),
-  picture: yup.string().required('Picture is required'),
+  govtId: yup.mixed().required('Government Id is required'),
+  picture: yup.mixed().required('Picture is required'),
   mobileNo: yup.string().matches(PHONE_REGEX, {
     message: 'Mobile no. is not valid',
     excludeEmptyString: true,
@@ -49,7 +49,7 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
   return (
     <Card sx={{ m: 2, p: 2 }}>
       <Typography variant="h6" gutterBottom>
-        Add Guest
+        Add Guests (one by one)
       </Typography>
       <Formik
         initialValues={initialValues}

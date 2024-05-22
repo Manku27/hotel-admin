@@ -19,7 +19,7 @@ import FormikDatePicker from '../common/FormikDatePicker';
 import { GuestForm } from '../guests/guestsType';
 import { useParams } from 'react-router-dom';
 import useSWR from 'swr';
-import { getFetcher, sendRequest } from '../services/fetcher';
+import { getFetcher, sendBookingRequest } from '../services/fetcher';
 import { Room } from '../rooms/roomTypes';
 import { RoomType, RoomTypeLabel } from '../rooms/roomConstants';
 
@@ -75,8 +75,15 @@ const BookingForm = () => {
   };
 
   const handleSubmit = (values: RoomBooking) => {
-    const payload: BookingPayload = {
-      guests: guestList,
+    const payload = {
+      guests: guestList.map((guest) => {
+        return {
+          name: guest.firstName + ' ' + guest.lastName,
+          age: guest.age,
+          mobileNo: guest.mobileNo,
+          gender: guest.gender,
+        };
+      }),
       booking: {
         checkInDate: values.checkInDate.toISOString(),
         checkOutDate: values.checkOutDate.toISOString(),
@@ -92,11 +99,22 @@ const BookingForm = () => {
       },
     };
 
-    console.log(payload);
+    const jsonData = JSON.stringify(payload);
 
-    sendRequest(`${import.meta.env.VITE_API}/bookings`, payload, () => {
-      console.log('much success');
+    const formData = new FormData();
+    formData.append(
+      'bookingWithGuestsDTO',
+      new Blob([jsonData], { type: 'application/json' })
+    );
+
+    guestList.forEach((guest) => {
+      console.log('guest', guest.picture);
+
+      formData.append('govtId', guest.govtId);
+      formData.append('picture', guest.picture);
     });
+
+    sendBookingRequest(`${import.meta.env.VITE_API}/bookings`, formData);
   };
 
   return (

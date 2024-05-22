@@ -20,7 +20,7 @@ async function logout() {
   const authData = getAuth();
   const token = authData ? authData.accessToken : null;
   try {
-    await fetch(url, {
+    fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
