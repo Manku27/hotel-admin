@@ -11,9 +11,11 @@ import {
 } from '@mui/x-data-grid';
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
+import RedoIcon from '@mui/icons-material/Redo';
 import { useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosNewIcon from '@mui/icons-material/ArrowForwardIos';
+import { Room } from '../rooms/roomTypes';
 
 function getWeekDates(today) {
   const weekStart = today.startOf('week'); // Sunday
@@ -62,6 +64,8 @@ const getColumnsForThisWeek = (today) => {
       headerAlign: 'center',
     },
     ...datesofweek.map((date, index) => {
+      const isCurrMonth = today.month() + 1 === Number(date.split('-')[1]);
+
       return {
         field: date,
         flex: 1,
@@ -76,14 +80,29 @@ const getColumnsForThisWeek = (today) => {
               flexDirection="column"
               sx={{ m: 1, height: '150%' }} // margin and height not working
             >
-              <Typography>{days[index]}</Typography>
-              <Typography variant="h4">{field.split('-')[2]}</Typography>
+              <Typography sx={{ color: !isCurrMonth ? 'grey' : 'inherit' }}>
+                {days[index]}
+              </Typography>
+              <Typography
+                variant="h4"
+                sx={{ color: !isCurrMonth ? 'grey' : 'inherit' }}
+              >
+                {field.split('-')[2]}
+              </Typography>
             </Box>
           );
         },
 
         renderCell: ({ row, field }: GridCellParams) => {
-          const isAvailableAtThisDay = !row.bookingMap[field];
+          if (!isCurrMonth) {
+            return <RedoIcon sx={{ m: 1, color: 'grey' }} />;
+          }
+
+          let isAvailableAtThisDay = true;
+          if (row.unavailableDays.length > 0) {
+            isAvailableAtThisDay = row.unavailableDays.indexOf(field) === -1;
+          }
+
           return (
             <Tooltip title={`${row.roomNumber} for ${field.split('-')[2]}`}>
               {isAvailableAtThisDay ? (
@@ -108,17 +127,31 @@ function Availability() {
 
   const month = selectedDate.month();
 
-  const { data: roomList, isLoading } = useSWR(
-    hotelId ? `${import.meta.env.VITE_API}/rooms/hotel/${hotelId}` : null,
+  const { data, isLoading } = useSWR(
+    hotelId
+      ? `${import.meta.env.VITE_API}/hotels/${hotelId}/availability?year=${selectedDate.year()}&month=${month + 1}`
+      : null,
     getFetcher
   );
 
+  const roomList: Room[] = data ?? [];
+
   const handlePrevWeek = () => {
-    setSelectedDate(selectedDate.subtract(7, 'day'));
+    const newDate = selectedDate.subtract(7, 'day');
+    if (newDate.month() < selectedDate.month()) {
+      setSelectedDate(newDate.endOf('month'));
+    } else {
+      setSelectedDate(newDate);
+    }
   };
 
   const handleNextWeek = () => {
-    setSelectedDate(selectedDate.add(7, 'day'));
+    const newDate = selectedDate.add(7, 'day');
+    if (newDate.month() > selectedDate.month()) {
+      setSelectedDate(newDate.startOf('month'));
+    } else {
+      setSelectedDate(newDate);
+    }
   };
 
   return (
@@ -164,7 +197,7 @@ function Availability() {
 
       <Card sx={{ m: 1 }}>
         <DataGrid
-          rows={roomList || []}
+          rows={roomList}
           columns={getColumnsForThisWeek(selectedDate)}
           loading={isLoading}
           hideFooter
