@@ -36,9 +36,14 @@ export const HotelItem = ({ hotel }: Props) => {
             </Box>
           </Grid>
           <Grid item xs={3}>
-            <Button variant="contained" onClick={() => setAddRom(!addRoom)}>
-              <Typography variant="body2">Add Rooms</Typography>
-            </Button>
+            <Link
+              to={`/hotels/${hotel.id}`}
+              style={{ textDecoration: 'none', color: '#01579b' }}
+            >
+              <Button variant="contained" onClick={() => setAddRom(!addRoom)}>
+                <Typography variant="body2">Check Availability</Typography>
+              </Button>
+            </Link>
           </Grid>
           <Grid item xs={12} sx={{ textAlign: 'left' }}>
             {hotel.employees.map((employee) => (
@@ -72,6 +77,15 @@ export const HotelItem = ({ hotel }: Props) => {
               </Card>
             </Grid>
           ))}
+          <Grid item xs={4}>
+            <Button
+              variant="contained"
+              onClick={() => setAddRom(!addRoom)}
+              sx={{ mt: 1 }}
+            >
+              <Typography variant="body2">Add Rooms</Typography>
+            </Button>
+          </Grid>
         </Grid>
         {addRoom ? (
           <LazyComponentWrapper>
