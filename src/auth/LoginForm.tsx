@@ -88,6 +88,9 @@ const LoginForm = () => {
                       helperText={errors.email && <ErrorMessage name="email" />}
                       sx={{ marginBottom: '1rem' }}
                       type="email"
+                      InputLabelProps={{
+                        shrink: true, // For google autofill
+                      }}
                       required
                     />
                     <PasswordField error={errors.password} />

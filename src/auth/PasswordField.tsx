@@ -31,7 +31,7 @@ const PasswordField = ({ error, ...props }: any) => {
             fullWidth
             error={!!error}
           >
-            <InputLabel>Password</InputLabel>
+            <InputLabel shrink>Password</InputLabel>
             <OutlinedInput
               id="outlined-adornment-password"
               type={showPassword ? 'text' : 'password'}

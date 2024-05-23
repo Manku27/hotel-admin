@@ -219,6 +219,9 @@ const BookingForm = () => {
                       label="Type"
                       name="type"
                       value={RoomTypeLabel[values?.type || '']}
+                      InputLabelProps={{
+                        shrink: true, // For google autofill
+                      }}
                     />
                   </Grid>
                   <Grid item xs={4}>

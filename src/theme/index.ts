@@ -70,6 +70,26 @@ const theme = createTheme({
   typography: {
     fontFamily: 'Roboto',
   },
+  // google autocomplete - dont remove yet
+  // components: {
+  //   MuiTextField: {
+  //     defaultProps: {
+  //       InputLabelProps: {
+  //         shrink: true, // Ensure the label shrinks when there's a value globally
+  //       },
+  //     },
+  //   },
+  //   MuiInputBase: {
+  //     styleOverrides: {
+  //       root: {
+  //         '&:-webkit-autofill': {
+  //           WebkitBoxShadow: '0 0 0 100px #fff inset',
+  //           WebkitTextFillColor: '#000',
+  //         },
+  //       },
+  //     },
+  //   },
+  // },
 });
 
 export default theme;
