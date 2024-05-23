@@ -20,7 +20,8 @@ const columns: GridColDef[] = [
     field: 'role',
     headerName: 'Role',
     flex: 1,
-    valueGetter: (value, row) => `${RoleLabel[row.roles[0].name]}`,
+    valueGetter: (value, row) =>
+      row.roles.length > 0 ? `${RoleLabel[row.roles[0].name]}` : 'Unassigned',
   },
 ];
 
