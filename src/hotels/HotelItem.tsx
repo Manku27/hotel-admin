@@ -1,4 +1,13 @@
-import { Box, Button, Card, Chip, Grid, Typography } from '@mui/material';
+import {
+  Autocomplete,
+  Box,
+  Button,
+  Card,
+  Chip,
+  Grid,
+  TextField,
+  Typography,
+} from '@mui/material';
 import { lazy, useState } from 'react';
 import { Hotel } from './hotelTypes';
 import { Room } from '../rooms/roomTypes';
@@ -9,7 +18,9 @@ import {
 } from '../rooms/roomConstants';
 import LazyComponentWrapper from '../routing/LazyComponentWrapper';
 import { Link } from 'react-router-dom';
-import dayjs from 'dayjs';
+import useSWR, { useSWRConfig } from 'swr';
+import { getFetcher, sendRequest } from '../services/fetcher';
+import { employeesAsOptions } from '../common/employeesAsOptions';
 
 const AddRoomForm = lazy(() => import('../rooms/AddRoomForm'));
 
@@ -18,7 +29,43 @@ interface Props {
 }
 
 export const HotelItem = ({ hotel }: Props) => {
+  const { mutate } = useSWRConfig();
+
   const [addRoom, setAddRom] = useState(false);
+
+  const existingEmployees = employeesAsOptions(hotel.employees);
+
+  const [employees, setEmployees] = useState(existingEmployees);
+
+  const { data: allEmployees, isLoading: isLoadingEmployees } = useSWR(
+    `${import.meta.env.VITE_API}/users`,
+    getFetcher,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
+  const allEmployeesOption = allEmployees
+    ? employeesAsOptions(allEmployees)
+    : [];
+
+  const handleEmployees = (e, newVal) => {
+    setEmployees(newVal);
+    handleSubmitEmployees(newVal);
+  };
+
+  const handleSubmitEmployees = (newVal) => {
+    const empIdList = newVal.map((emp) => emp.id);
+    sendRequest(
+      `${import.meta.env.VITE_API}/hotels/${hotel.id}/employees`,
+      empIdList,
+      () => {
+        mutate(`${import.meta.env.VITE_API}/users`);
+        mutate(`${import.meta.env.VITE_API}/hotels`);
+      },
+      'PUT'
+    );
+  };
 
   return (
     <Grid item xs={6}>
@@ -46,13 +93,27 @@ export const HotelItem = ({ hotel }: Props) => {
             </Link>
           </Grid>
           <Grid item xs={12} sx={{ textAlign: 'left' }}>
-            {hotel.employees.map((employee) => (
-              <Chip
-                label={`${employee.firstName} ${employee.lastName}`}
-                key={employee.id}
-                sx={{ mr: 1 }}
-              />
-            ))}
+            <Autocomplete
+              loading={isLoadingEmployees}
+              clearIcon={false}
+              options={allEmployeesOption}
+              multiple
+              value={employees}
+              renderTags={(value: Option[], props) =>
+                value.map((option, index) => (
+                  <Chip
+                    label={option?.label || ''}
+                    {...props({ index })}
+                    key={index}
+                  />
+                ))
+              }
+              onChange={handleEmployees}
+              sx={{ marginBottom: '1rem' }}
+              renderInput={(params) => (
+                <TextField label="Employees" {...params} />
+              )}
+            />
           </Grid>
         </Grid>
 

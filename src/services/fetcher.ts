@@ -34,11 +34,12 @@ export const getFetcher = async (url) => {
   return res.json();
 };
 
-export async function sendRequest(url, arg, successCallback) {
+export async function sendRequest(url, arg, successCallback, verb?: string) {
+  const apiVerb = verb ?? 'POST';
   const id = toast.loading('Please wait...');
   try {
     await fetch(url, {
-      method: 'POST',
+      method: apiVerb,
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,

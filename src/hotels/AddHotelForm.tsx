@@ -13,6 +13,7 @@ import { AddHotel } from './hotelTypes';
 import { GST_REGEX } from './hotelConstants';
 import useSWR, { useSWRConfig } from 'swr';
 import { getFetcher, sendRequest } from '../services/fetcher';
+import { employeesAsOptions } from '../common/employeesAsOptions';
 
 const validationSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
@@ -21,11 +22,6 @@ const validationSchema = yup.object().shape({
     message: 'GST number is not valid',
     excludeEmptyString: true,
   }),
-  employeeIds: yup
-    .array()
-    .of(yup.string().required('String is required'))
-    .min(1, 'Array must contain at least one item')
-    .max(5, 'Array exceeds maximum length'),
 });
 
 const initialValues: AddHotel = {
@@ -33,15 +29,6 @@ const initialValues: AddHotel = {
   address: '',
   gstNumber: '',
   employeeIds: [],
-};
-
-const getUserList = (userList) => {
-  return userList?.map((user) => {
-    return {
-      id: user.id,
-      label: `${user.firstName} ${user.lastName}`,
-    };
-  });
 };
 
 interface Props {
@@ -66,7 +53,7 @@ const AddHotelForm = ({ successCallback }: Props) => {
     }
   );
 
-  const USERS = getUserList(userList) || [];
+  const USERS = employeesAsOptions(userList) || [];
 
   return (
     <Card sx={{ m: 2, p: 2 }}>
@@ -157,7 +144,6 @@ const AddHotelForm = ({ successCallback }: Props) => {
                             <ErrorMessage name="employeeIds" />
                           )
                         }
-                        required
                       />
                     )}
                   />

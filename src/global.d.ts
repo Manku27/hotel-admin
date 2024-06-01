@@ -4,6 +4,6 @@ interface Window {
 }
 
 interface Option {
-  id: string;
+  id: string | number;
   label: string;
 }
