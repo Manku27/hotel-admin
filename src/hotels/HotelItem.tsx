@@ -83,14 +83,24 @@ export const HotelItem = ({ hotel }: Props) => {
             </Box>
           </Grid>
           <Grid item xs={3}>
-            <Link
-              to={`/hotels/${hotel.id}`}
-              style={{ textDecoration: 'none', color: '#01579b' }}
-            >
-              <Button variant="contained" onClick={() => setAddRom(!addRoom)}>
-                <Typography variant="body2">Check Availability</Typography>
-              </Button>
-            </Link>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <Link
+                to={`/hotels/${hotel.id}`}
+                style={{ textDecoration: 'none', color: '#01579b' }}
+              >
+                <Button variant="contained" onClick={() => setAddRom(!addRoom)}>
+                  <Typography variant="body2">Check Availability</Typography>
+                </Button>
+              </Link>
+              <Link
+                to={`/hotels/${hotel.id}/bookings`}
+                style={{ textDecoration: 'none', color: '#01579b' }}
+              >
+                <Button variant="contained" onClick={() => setAddRom(!addRoom)}>
+                  <Typography variant="body2">Check Bookings</Typography>
+                </Button>
+              </Link>
+            </Box>
           </Grid>
           <Grid item xs={12} sx={{ textAlign: 'left' }}>
             <Autocomplete

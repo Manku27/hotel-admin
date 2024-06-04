@@ -25,3 +25,11 @@ export interface BookingPayload {
   };
   guests: Guest[];
 }
+
+export interface Booking {
+  guests: { name: string; mobileNo: string }[];
+  roomNo: string;
+  checkInDate: Dayjs;
+  checkOutDate: Dayjs;
+  id: string;
+}

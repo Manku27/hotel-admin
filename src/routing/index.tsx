@@ -10,6 +10,7 @@ const BookingForm = lazy(() => import('../booking/BookingForm'));
 const LoginForm = lazy(() => import('../auth/LoginForm'));
 const Employees = lazy(() => import('../employee/Employees'));
 const Availability = lazy(() => import('../availability/Availability'));
+const Bookings = lazy(() => import('../booking/Bookings'));
 
 export const routes = [
   {
@@ -32,6 +33,10 @@ export const routes = [
   {
     path: '/hotels/:hotelId',
     element: <Availability />,
+  },
+  {
+    path: '/hotels/:hotelId/bookings',
+    element: <Bookings />,
   },
   {
     path: '/users',
