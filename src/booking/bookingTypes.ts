@@ -31,5 +31,8 @@ export interface Booking {
   roomNo: string;
   checkInDate: Dayjs;
   checkOutDate: Dayjs;
-  id: string;
+  id: number;
+  additionalServices: { id: number; name: string; cost: number }[];
+  bookingPrice: number;
+  totalPrice: number;
 }

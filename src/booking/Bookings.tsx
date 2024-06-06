@@ -20,13 +20,11 @@ const Bookings = () => {
   );
   const [checkOut, setCheckOut] = useState<Dayjs | null>(today.add(1, 'day'));
 
-  const { data, isLoading } = useSWR(
-    `${import.meta.env.VITE_API}/bookings/hotel/${hotelId}/startDate/${checkIn?.format('YYYY-MM-DD')}/endDate/${checkOut?.format('YYYY-MM-DD')}`,
-    getFetcher,
-    {
-      revalidateOnFocus: false,
-    }
-  );
+  const API = `${import.meta.env.VITE_API}/bookings/hotel/${hotelId}/startDate/${checkIn?.format('YYYY-MM-DD')}/endDate/${checkOut?.format('YYYY-MM-DD')}`;
+
+  const { data, isLoading } = useSWR(API, getFetcher, {
+    revalidateOnFocus: false,
+  });
 
   return (
     <Container
@@ -74,7 +72,7 @@ const Bookings = () => {
       {isLoading ? (
         <ScriptLoadingFallback />
       ) : data?.length > 0 ? (
-        <BookingList list={data} />
+        <BookingList list={data} listAPI={API} />
       ) : (
         <PageCenter>
           <Typography variant="h3" sx={{ fontStyle: 'italic' }}>

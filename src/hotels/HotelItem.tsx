@@ -88,7 +88,7 @@ export const HotelItem = ({ hotel }: Props) => {
                 to={`/hotels/${hotel.id}`}
                 style={{ textDecoration: 'none', color: '#01579b' }}
               >
-                <Button variant="contained" onClick={() => setAddRom(!addRoom)}>
+                <Button variant="contained">
                   <Typography variant="body2">Check Availability</Typography>
                 </Button>
               </Link>
@@ -96,7 +96,7 @@ export const HotelItem = ({ hotel }: Props) => {
                 to={`/hotels/${hotel.id}/bookings`}
                 style={{ textDecoration: 'none', color: '#01579b' }}
               >
-                <Button variant="contained" onClick={() => setAddRom(!addRoom)}>
+                <Button variant="contained">
                   <Typography variant="body2">Check Bookings</Typography>
                 </Button>
               </Link>
