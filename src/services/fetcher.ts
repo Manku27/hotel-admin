@@ -56,6 +56,7 @@ export async function sendRequest(url, arg, successCallback, verb?: string) {
       successCallback();
     }
   } catch (error) {
+    console.error(error);
     toast.update(id, {
       render: `Failed.`,
       type: 'error',
@@ -90,3 +91,33 @@ export async function sendBookingRequest(url, arg) {
     });
   }
 }
+
+export const getAndDisplayPDF = async (url) => {
+  try {
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: token
+        ? {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          }
+        : {
+            'Content-Type': 'application/json',
+          },
+    });
+
+    if (!res.ok) {
+      throw new Error();
+    }
+
+    const data = await res.blob();
+    const file = window.URL.createObjectURL(data);
+    window.open(file, '_blank');
+  } catch {
+    toast('Oops! Contact us about this', {
+      type: 'error',
+      isLoading: false,
+      autoClose: 800,
+    });
+  }
+};

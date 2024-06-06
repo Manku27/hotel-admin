@@ -3,6 +3,7 @@ import { Button, Card, Grid, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { lazy, useState } from 'react';
 import LazyComponentWrapper from '../routing/LazyComponentWrapper';
+import { getAndDisplayPDF } from '../services/fetcher';
 
 const AddServiceForm = lazy(() => import('./AddServiceForm'));
 
@@ -45,6 +46,12 @@ export const BookingItem = ({ item, listAPI }: Props) => {
     ...item.additionalServices,
     { id: 'total', name: 'Total Cost', cost: item.totalPrice },
   ];
+
+  const generateBill = () => {
+    const url = `${import.meta.env.VITE_API}/bills/${item.id}`;
+    getAndDisplayPDF(url);
+  };
+
   return (
     <Grid item xs={6}>
       <Card sx={{ m: 2, p: 2 }}>
@@ -104,6 +111,14 @@ export const BookingItem = ({ item, listAPI }: Props) => {
           disableColumnMenu
           disableColumnSorting
         />
+        <Grid container spacing={2}>
+          <Grid item xs={10}></Grid>
+          <Grid item xs={2}>
+            <Button variant="contained" onClick={generateBill} sx={{ mt: 1 }}>
+              <Typography variant="body2">Bill</Typography>
+            </Button>
+          </Grid>
+        </Grid>
       </Card>
     </Grid>
   );
