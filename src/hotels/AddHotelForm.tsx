@@ -18,7 +18,7 @@ import { employeesAsOptions } from '../common/employeesAsOptions';
 const validationSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
   address: yup.string().required('Address is required'),
-  gstNumber: yup.string().matches(GST_REGEX, {
+  gstNumber: yup.string().required('GST is required').matches(GST_REGEX, {
     message: 'GST number is not valid',
     excludeEmptyString: true,
   }),
@@ -110,7 +110,8 @@ const AddHotelForm = ({ successCallback }: Props) => {
                       errors.gstNumber && <ErrorMessage name="gstNumber" />
                     }
                     sx={{ marginBottom: '1rem' }}
-                  />{' '}
+                    required
+                  />
                 </Grid>
                 <Grid item xs={9}>
                   <Autocomplete
