@@ -26,6 +26,14 @@ const Bookings = () => {
     revalidateOnFocus: false,
   });
 
+  const { data: revenue } = useSWR(
+    `${import.meta.env.VITE_API}/revenue/date/range?hotelId=${hotelId}&startDate=${checkIn?.format('YYYY-MM-DD')}&endDate=${checkOut?.format('YYYY-MM-DD')}`,
+    getFetcher,
+    {
+      revalidateOnFocus: false,
+    }
+  );
+
   return (
     <Container
       maxWidth={false}
@@ -39,7 +47,7 @@ const Bookings = () => {
       <Typography variant="h2">Bookings</Typography>
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{ my: 1 }}>
           <Grid
             item
             xs={2}
@@ -65,6 +73,14 @@ const Bookings = () => {
               }}
               label="Check Out"
             />
+          </Grid>
+          <Grid item xs={1}></Grid>
+          <Grid item xs={6}>
+            <Typography variant="h4">
+              {revenue
+                ? `Booking = ₹ ${revenue.totalBookingRevenue} , Service = ₹ ${revenue.totalServiceRevenue} , Total = ₹ ${revenue.totalRevenue}`
+                : null}
+            </Typography>
           </Grid>
         </Grid>
       </LocalizationProvider>

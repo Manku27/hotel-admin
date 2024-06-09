@@ -142,6 +142,15 @@ function Availability() {
     getFetcher
   );
 
+  const { data: revenue } = useSWR(
+    hotelId
+      ? `${import.meta.env.VITE_API}/revenue/monthly/${selectedDate.year()}/${month + 1}/${hotelId}`
+      : null,
+    getFetcher
+  );
+
+  console.log(revenue);
+
   const roomList: Room[] = data ?? [];
 
   const handlePrevWeek = () => {
@@ -192,6 +201,11 @@ function Availability() {
       >
         <Typography variant="h4" sx={{ mx: 1, textAlign: 'right' }}>
           {months[month]}
+        </Typography>
+        <Typography variant="h5" sx={{ mx: 1 }}>
+          {revenue
+            ? `Booking = ₹ ${revenue.totalBookingRevenue} , Service = ₹ ${revenue.totalServiceRevenue} , Total = ₹ ${revenue.totalRevenue}`
+            : null}
         </Typography>
         <Box>
           <ArrowBackIosNewIcon
