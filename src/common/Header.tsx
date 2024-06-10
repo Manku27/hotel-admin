@@ -20,10 +20,7 @@ import HotelIcon from '@mui/icons-material/Hotel';
 import { logout } from '../services/auth-service';
 import { Link } from 'react-router-dom';
 
-const pages = [
-  { label: 'Hotels', to: '/hotels' },
-  { label: 'Employees', to: '/users' },
-];
+const pages = [{ label: 'Employees', to: '/users' }];
 
 const settings = [{ label: 'Logout', onClick: logout }];
 

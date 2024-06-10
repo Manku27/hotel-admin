@@ -74,7 +74,7 @@ export const HotelItem = ({ hotel }: Props) => {
           <Grid item xs={9}>
             <Box textAlign="left" sx={{ mx: 1 }}>
               <Link
-                to={`/hotels/${hotel.id}`}
+                to={`/hotel/${hotel.id}`}
                 style={{ textDecoration: 'none', color: '#01579b' }}
               >
                 <Typography variant="h5"> {hotel.name}</Typography>
@@ -85,7 +85,7 @@ export const HotelItem = ({ hotel }: Props) => {
           <Grid item xs={3}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Link
-                to={`/hotels/${hotel.id}`}
+                to={`/hotel/${hotel.id}`}
                 style={{ textDecoration: 'none', color: '#01579b' }}
               >
                 <Button variant="contained">
@@ -93,7 +93,7 @@ export const HotelItem = ({ hotel }: Props) => {
                 </Button>
               </Link>
               <Link
-                to={`/hotels/${hotel.id}/bookings`}
+                to={`/bookings/${hotel.id}`}
                 style={{ textDecoration: 'none', color: '#01579b' }}
               >
                 <Button variant="contained">

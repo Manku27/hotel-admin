@@ -186,7 +186,7 @@ function Availability() {
           <Typography variant="h3">Availability for {hotelId}</Typography>
         </Grid>
         <Grid item xs={2} sx={{ textAlign: 'right' }}>
-          <Link to={`/booking/${hotelId}`}>
+          <Link to={`/book/${hotelId}`}>
             <Button variant="contained" color="primary">
               Make Bookings
             </Button>

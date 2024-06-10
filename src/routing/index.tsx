@@ -20,22 +20,18 @@ export const routes = [
   },
   {
     path: '/',
-    element: <h1>Dashboard</h1>,
-  },
-  {
-    path: '/hotels',
     element: <Hotels />,
   },
   {
-    path: '/booking/:hotelId',
+    path: '/book/:hotelId',
     element: <BookingForm />,
   },
   {
-    path: '/hotels/:hotelId',
+    path: '/hotel/:hotelId',
     element: <Availability />,
   },
   {
-    path: '/hotels/:hotelId/bookings',
+    path: '/bookings/:hotelId',
     element: <Bookings />,
   },
   {
