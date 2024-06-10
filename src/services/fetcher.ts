@@ -92,7 +92,7 @@ export async function sendBookingRequest(url, arg) {
   }
 }
 
-export const getAndDisplayPDF = async (url) => {
+export const getAndDisplayFiles = async (url) => {
   try {
     const res = await fetch(url, {
       method: 'GET',

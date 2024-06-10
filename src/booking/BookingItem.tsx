@@ -1,9 +1,10 @@
 import { Booking } from './bookingTypes';
 import { Button, Card, Grid, Typography } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridCellParams } from '@mui/x-data-grid';
 import { lazy, useState } from 'react';
 import LazyComponentWrapper from '../routing/LazyComponentWrapper';
-import { getAndDisplayPDF } from '../services/fetcher';
+import { getAndDisplayFiles } from '../services/fetcher';
+import { PhotoDownload } from '../common/PhotoDownload';
 
 const AddServiceForm = lazy(() => import('./AddServiceForm'));
 
@@ -17,6 +18,22 @@ const guestColumns = [
     field: 'mobileNo',
     headerName: 'Phone',
     flex: 1,
+  },
+  {
+    field: 'govId',
+    headerName: 'Govt Id',
+    flex: 1,
+    renderCell: ({ row }: GridCellParams) => {
+      return <PhotoDownload type="Gov" values={row} />;
+    },
+  },
+  {
+    field: 'photoId',
+    headerName: 'Photo Id',
+    flex: 1,
+    renderCell: ({ row }: GridCellParams) => {
+      return <PhotoDownload type="Photo" values={row} />;
+    },
   },
 ];
 
@@ -49,7 +66,7 @@ export const BookingItem = ({ item, listAPI }: Props) => {
 
   const generateBill = () => {
     const url = `${import.meta.env.VITE_API}/bills/${item.id}`;
-    getAndDisplayPDF(url);
+    getAndDisplayFiles(url);
   };
 
   return (
