@@ -10,7 +10,7 @@ type Props = {
 export const PhotoDownload = ({ values, type }: Props) => {
   const handleClick = () => {
     const fileType = type === 'Gov' ? 'govtId' : 'picture';
-    const guestId = values?.row?.guestId;
+    const guestId = values?.id;
     const url = `${import.meta.env.VITE_API}/file/download/${fileType}/${guestId}`;
     getAndDisplayFiles(url);
   };
