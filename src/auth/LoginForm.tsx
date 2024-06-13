@@ -67,7 +67,7 @@ const LoginForm = () => {
               align="center"
               sx={{ marginBottom: '1rem' }}
             >
-              Hotel-Admin
+              Hotel Admin
             </Typography>
             <Formik
               initialValues={initialValues}

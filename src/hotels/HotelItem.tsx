@@ -160,7 +160,15 @@ export const HotelItem = ({ hotel }: Props) => {
               </Card>
             </Grid>
           ))}
-          <Grid item xs={4}>
+          <Grid
+            item
+            xs={4}
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+            }}
+          >
             <Button
               variant="contained"
               onClick={() => setAddRom(!addRoom)}
