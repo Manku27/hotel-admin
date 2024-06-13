@@ -159,7 +159,15 @@ const BookingForm = () => {
             return (
               <Form>
                 <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={3}>
+                  <Grid
+                    item
+                    xs={2}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                      ml: 1,
+                    }}
+                  >
                     <FormikDatePicker
                       name="checkInDate"
                       label="Check In Date"
@@ -167,7 +175,14 @@ const BookingForm = () => {
                       minDate={today}
                     />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid
+                    item
+                    xs={2}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'flex-start',
+                    }}
+                  >
                     <FormikDatePicker
                       name="checkOutDate"
                       label="Check Out Date"
@@ -175,12 +190,12 @@ const BookingForm = () => {
                       minDate={checkIn.add(1, 'day')}
                     />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={2}>
                     <Autocomplete
                       id="roomNo"
                       options={availableRoomsList}
                       getOptionLabel={(option) => `${option?.roomNumber}`}
-                      style={{ width: 300 }}
+                      fullWidth
                       onChange={(e, value) => {
                         setFieldValue('roomNo', value?.roomNumber || '');
                         setFieldValue('id', value?.id || '');
@@ -197,7 +212,7 @@ const BookingForm = () => {
                       renderInput={(params) => (
                         <TextField
                           margin="normal"
-                          label="Room Numbers"
+                          label="Room Number"
                           name="roomNo"
                           error={!!errors.roomNo && !!touched.roomNo}
                           helperText={
@@ -211,18 +226,19 @@ const BookingForm = () => {
                       sx={{ marginBottom: 1 }}
                     />
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={2}>
                     <TextField
-                      margin="normal"
                       label="Type"
                       name="type"
                       value={RoomTypeLabel[values?.type || '']}
                       InputLabelProps={{
                         shrink: true, // For google autofill
                       }}
+                      fullWidth
+                      disabled
                     />
                   </Grid>
-                  <Grid item xs={4}>
+                  <Grid item xs={2}>
                     <Field
                       as={TextField}
                       name="finalPrice"
@@ -233,7 +249,6 @@ const BookingForm = () => {
                         errors.finalPrice &&
                         touched.finalPrice && <ErrorMessage name="finalPrice" />
                       }
-                      sx={{ marginBottom: '1rem' }}
                       required
                       InputProps={{
                         startAdornment: (
@@ -246,8 +261,8 @@ const BookingForm = () => {
                       }
                     />
                   </Grid>
-                  <Grid item xs={4}></Grid>
-                  <Grid item xs={4}>
+
+                  <Grid item xs={1}>
                     <Button
                       type="submit"
                       variant="contained"
