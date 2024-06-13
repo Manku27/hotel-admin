@@ -7,7 +7,7 @@ import { FormHelperText } from '@mui/material';
 const FormikDatePicker = ({ name, sideEffect, ...otherProps }: any) => {
   return (
     <Field name={name}>
-      {({ field, form: { setFieldValue, errors } }) => (
+      {({ field, form: { setFieldValue, errors, touched } }) => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
             value={field.value ? field.value : null}
@@ -17,9 +17,9 @@ const FormikDatePicker = ({ name, sideEffect, ...otherProps }: any) => {
             }}
             {...otherProps}
           />
-          {errors ? (
+          {errors[name] && touched[name] ? (
             <FormHelperText>
-              <ErrorMessage name={field.name} />
+              <ErrorMessage name={name} />
             </FormHelperText>
           ) : null}
         </LocalizationProvider>

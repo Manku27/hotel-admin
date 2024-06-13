@@ -142,7 +142,6 @@ const BookingForm = () => {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
-          validateOnBlur={false}
         >
           {({ errors, touched, setFieldValue, values }) => {
             const handleCheckInDate = (value) => {
@@ -200,9 +199,10 @@ const BookingForm = () => {
                           margin="normal"
                           label="Room Numbers"
                           name="roomNo"
-                          error={!!errors.roomNo}
+                          error={!!errors.roomNo && !!touched.roomNo}
                           helperText={
-                            errors.roomNo && <ErrorMessage name="roomNo" />
+                            errors.roomNo &&
+                            touched.roomNo && <ErrorMessage name="roomNo" />
                           }
                           {...params}
                           required
@@ -228,9 +228,10 @@ const BookingForm = () => {
                       name="finalPrice"
                       label="Final Price/Night"
                       fullWidth
-                      error={!!errors.finalPrice && touched.finalPrice}
+                      error={!!errors.finalPrice && !!touched.finalPrice}
                       helperText={
-                        errors.finalPrice && <ErrorMessage name="finalPrice" />
+                        errors.finalPrice &&
+                        touched.finalPrice && <ErrorMessage name="finalPrice" />
                       }
                       sx={{ marginBottom: '1rem' }}
                       required
