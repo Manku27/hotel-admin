@@ -57,7 +57,14 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
         onSubmit={handleSubmit}
         validateOnBlur={false}
       >
-        {({ errors, setValues, handleChange, values, isSubmitting }) => {
+        {({
+          errors,
+          setValues,
+          handleChange,
+          values,
+          isSubmitting,
+          touched,
+        }) => {
           return (
             <Form>
               <Grid container spacing={2}>
@@ -68,9 +75,10 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                     name="firstName"
                     label="First Name"
                     fullWidth
-                    error={!!errors.firstName}
+                    error={!!errors.firstName && !!touched.firstName}
                     helperText={
-                      errors.firstName && <ErrorMessage name="firstName" />
+                      errors.firstName &&
+                      touched.firstName && <ErrorMessage name="firstName" />
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
@@ -83,16 +91,17 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                     name="lastName"
                     label="Last Name"
                     fullWidth
-                    error={!!errors.lastName}
+                    error={!!errors.lastName && !!touched.lastName}
                     helperText={
-                      errors.lastName && <ErrorMessage name="lastName" />
+                      errors.lastName &&
+                      touched.lastName && <ErrorMessage name="lastName" />
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <FormControl error={!!errors.gender}>
+                  <FormControl error={!!errors.gender && !!touched.gender}>
                     <FormLabel id="demo-row-radio-buttons-group-label">
                       Gender
                     </FormLabel>
@@ -120,7 +129,9 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                       />
                     </Field>
                     <FormHelperText>
-                      {errors.gender && <ErrorMessage name="gender" />}
+                      {errors.gender && touched.gender && (
+                        <ErrorMessage name="gender" />
+                      )}
                     </FormHelperText>
                   </FormControl>
                 </Grid>
@@ -131,8 +142,10 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                     name="age"
                     label="Age"
                     fullWidth
-                    error={!!errors.age}
-                    helperText={errors.age && <ErrorMessage name="age" />}
+                    error={!!errors.age && !!touched.age}
+                    helperText={
+                      errors.age && touched.age && <ErrorMessage name="age" />
+                    }
                     sx={{ marginBottom: '1rem' }}
                     type="number"
                     required
@@ -147,9 +160,10 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                     name="mobileNo"
                     label="Mobile No"
                     fullWidth
-                    error={!!errors.mobileNo}
+                    error={!!errors.mobileNo && !!touched.mobileNo}
                     helperText={
-                      errors.mobileNo && <ErrorMessage name="mobileNo" />
+                      errors.mobileNo &&
+                      touched.mobileNo && <ErrorMessage name="mobileNo" />
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
@@ -169,7 +183,7 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                   <FileUploadButton
                     title="Id upload"
                     name="govtId"
-                    error={errors.govtId}
+                    error={errors.govtId && touched.govtId}
                     setValues={setValues}
                     isSubmitting={isSubmitting}
                   />
@@ -178,7 +192,7 @@ const AddSingleGuestForm = ({ initialValues, submitCallback }: Props) => {
                   <FileUploadButton
                     title="Photo upload"
                     name="picture"
-                    error={errors.picture}
+                    error={errors.picture && touched.picture}
                     setValues={setValues}
                     isSubmitting={isSubmitting}
                   />

@@ -59,9 +59,12 @@ export const FileUploadButton = ({
       </Button>
       {file ? <Typography>{file.name}</Typography> : null}
       {error ? (
-        <FormHelperText>
+        <Typography
+          variant="subtitle2"
+          sx={{ color: 'red', fontWeight: 'normal' }}
+        >
           <ErrorMessage name={name} />
-        </FormHelperText>
+        </Typography>
       ) : null}
     </Box>
   );
