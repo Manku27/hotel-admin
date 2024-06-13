@@ -90,8 +90,10 @@ const AddRoomForm = ({ hotelId, successCallback }: Props) => {
                   margin="normal"
                   label="Room Type"
                   name="type"
-                  error={!!errors.type}
-                  helperText={errors.type && <ErrorMessage name="type" />}
+                  error={!!errors.type && !!touched.type}
+                  helperText={
+                    errors.type && touched.type && <ErrorMessage name="type" />
+                  }
                   {...params}
                   required
                 />
@@ -104,9 +106,10 @@ const AddRoomForm = ({ hotelId, successCallback }: Props) => {
                 name="customType"
                 label="Custom Type"
                 fullWidth
-                error={!!errors.customType && touched.customType}
+                error={!!errors.customType && !!touched.customType}
                 helperText={
-                  errors.customType && <ErrorMessage name="customType" />
+                  errors.customType &&
+                  touched.customType && <ErrorMessage name="customType" />
                 }
                 sx={{ marginBottom: '1rem' }}
                 required
@@ -117,9 +120,10 @@ const AddRoomForm = ({ hotelId, successCallback }: Props) => {
               name="pricePerNight"
               label="Default Price/Night"
               fullWidth
-              error={!!errors.pricePerNight && touched.pricePerNight}
+              error={!!errors.pricePerNight && !!touched.pricePerNight}
               helperText={
-                errors.pricePerNight && <ErrorMessage name="pricePerNight" />
+                errors.pricePerNight &&
+                touched.pricePerNight && <ErrorMessage name="pricePerNight" />
               }
               sx={{ marginBottom: '1rem' }}
               required
@@ -149,9 +153,10 @@ const AddRoomForm = ({ hotelId, successCallback }: Props) => {
                 <TextField
                   label="Room Numbers (Hit enter after every entry)"
                   {...params}
-                  error={!!errors.roomNumbers && touched.roomNumbers}
+                  error={!!errors.roomNumbers && !!touched.roomNumbers}
                   helperText={
-                    errors.roomNumbers && <ErrorMessage name="roomNumbers" />
+                    errors.roomNumbers &&
+                    touched.roomNumbers && <ErrorMessage name="roomNumbers" />
                   }
                   required
                 />
