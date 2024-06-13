@@ -44,15 +44,17 @@ const AddServiceForm = ({ listAPI, bookingId, successCallback }: Props) => {
         onSubmit={handleSubmit}
         validateOnBlur={false}
       >
-        {({ errors }) => (
+        {({ errors, touched }) => (
           <Form>
             <Field
               as={TextField}
               name="name"
               label="Service name"
               fullWidth
-              error={!!errors.name}
-              helperText={errors.name && <ErrorMessage name="name" />}
+              error={!!errors.name && !!touched.name}
+              helperText={
+                errors.name && touched.name && <ErrorMessage name="name" />
+              }
               sx={{ marginBottom: '1rem' }}
               required
             />
@@ -62,8 +64,10 @@ const AddServiceForm = ({ listAPI, bookingId, successCallback }: Props) => {
               name="cost"
               label="Cost"
               fullWidth
-              error={!!errors.cost}
-              helperText={errors.cost && <ErrorMessage name="cost" />}
+              error={!!errors.cost && !!touched.cost}
+              helperText={
+                errors.cost && touched.cost && <ErrorMessage name="cost" />
+              }
               sx={{ marginBottom: '1rem' }}
               required
             />
