@@ -128,6 +128,10 @@ const getColumnsForThisWeek = (today) => {
   return columns;
 };
 
+const getRowClassName = (params) => {
+  return params.indexRelativeToCurrentPage % 2 === 0 ? 'alternate-row' : '';
+};
+
 function Availability() {
   const { hotelId } = useParams();
 
@@ -238,6 +242,12 @@ function Availability() {
           disableColumnMenu
           disableColumnSorting
           columnHeaderHeight={80}
+          getRowClassName={getRowClassName}
+          sx={{
+            '& .alternate-row': {
+              backgroundColor: '#f5f5f5', // Light grey color
+            },
+          }}
         />
       </Card>
     </Container>
