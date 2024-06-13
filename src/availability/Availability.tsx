@@ -237,6 +237,7 @@ function Availability() {
           disableColumnFilter
           disableColumnMenu
           disableColumnSorting
+          columnHeaderHeight={80}
         />
       </Card>
     </Container>
