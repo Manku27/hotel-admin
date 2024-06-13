@@ -79,7 +79,22 @@ export const HotelItem = ({ hotel }: Props) => {
               >
                 <Typography variant="h5"> {hotel.name}</Typography>
               </Link>
-              <Typography variant="body2"> {hotel.address}</Typography>
+              <Typography variant="body2">
+                Phone :
+                {hotel.phoneNumbers?.length > 0
+                  ? ' ' + hotel.phoneNumbers[0]
+                  : ''}
+              </Typography>
+              <Typography variant="body2">
+                {hotel.address
+                  ? `${hotel.address.street}, ${hotel.address.city}`
+                  : ''}
+              </Typography>
+              <Typography variant="body2">
+                {hotel.address
+                  ? `${hotel.address.state},  ${hotel.address.country}, ${hotel.address.zipCode}`
+                  : ''}
+              </Typography>
             </Box>
           </Grid>
           <Grid item xs={3}>
