@@ -44,7 +44,7 @@ const EmployeeForm = ({ successCallback }: Props) => {
         onSubmit={handleSubmit}
         validateOnBlur={false}
       >
-        {({ errors }) => {
+        {({ errors, touched }) => {
           return (
             <Form>
               <Grid container spacing={2}>
@@ -55,9 +55,10 @@ const EmployeeForm = ({ successCallback }: Props) => {
                     name="firstName"
                     label="First Name"
                     fullWidth
-                    error={!!errors.firstName}
+                    error={!!errors.firstName && !!touched.firstName}
                     helperText={
-                      errors.firstName && <ErrorMessage name="firstName" />
+                      errors.firstName &&
+                      touched.firstName && <ErrorMessage name="firstName" />
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
@@ -70,9 +71,10 @@ const EmployeeForm = ({ successCallback }: Props) => {
                     name="lastName"
                     label="Last Name"
                     fullWidth
-                    error={!!errors.lastName}
+                    error={!!errors.lastName && !!touched.lastName}
                     helperText={
-                      errors.lastName && <ErrorMessage name="lastName" />
+                      errors.lastName &&
+                      touched.lastName && <ErrorMessage name="lastName" />
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
@@ -85,8 +87,11 @@ const EmployeeForm = ({ successCallback }: Props) => {
                     name="email"
                     label="E-mail"
                     fullWidth
-                    error={!!errors.email}
-                    helperText={errors.email && <ErrorMessage name="email" />}
+                    error={!!errors.email && !!touched.email}
+                    helperText={
+                      errors.email &&
+                      touched.email && <ErrorMessage name="email" />
+                    }
                     sx={{ marginBottom: '1rem' }}
                     type="email"
                     required
