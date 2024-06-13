@@ -80,10 +80,7 @@ export const HotelItem = ({ hotel }: Props) => {
                 <Typography variant="h5"> {hotel.name}</Typography>
               </Link>
               <Typography variant="body2">
-                Phone :
-                {hotel.phoneNumbers?.length > 0
-                  ? ' ' + hotel.phoneNumbers[0]
-                  : ''}
+                Phone : {hotel.phoneNumbers?.map((phn) => phn + ' ')}
               </Typography>
               <Typography variant="body2">
                 {hotel.address

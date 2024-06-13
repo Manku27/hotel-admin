@@ -10,25 +10,49 @@ import {
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { AddHotel } from './hotelTypes';
-import { GST_REGEX } from './hotelConstants';
+import { GST_REGEX, STATES, ZIP_REGEX } from './hotelConstants';
 import useSWR, { useSWRConfig } from 'swr';
 import { getFetcher, sendRequest } from '../services/fetcher';
 import { employeesAsOptions } from '../common/employeesAsOptions';
+import ChipInput from '../common/ChipInput';
+import { PHONE_REGEX } from '../guests/guestsType';
 
 const validationSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
-  address: yup.string().required('Address is required'),
+  address: yup.object().shape({
+    street: yup.string().required('Street is required'),
+    city: yup.string().required('City is required'),
+    state: yup
+      .string()
+      .oneOf(STATES, 'Invalid state')
+      .required('State is required'),
+    zipCode: yup
+      .string()
+      .matches(ZIP_REGEX, 'Invalid Zip code')
+      .required('Zip Code is required'),
+    country: yup.string().required('Country is required'),
+  }),
   gstNumber: yup.string().required('GST is required').matches(GST_REGEX, {
     message: 'GST number is not valid',
     excludeEmptyString: true,
   }),
+  phoneNumbers: yup
+    .array()
+    .of(
+      yup.string().matches(PHONE_REGEX, {
+        message: 'Phone no. is not valid',
+        excludeEmptyString: true,
+      })
+    )
+    .min(1, 'At least one phone number is required'),
 });
 
 const initialValues: AddHotel = {
   name: '',
-  address: '',
+  address: { city: '', country: 'India', state: '', street: '', zipCode: '' },
   gstNumber: '',
   employeeIds: [],
+  phoneNumbers: [],
 };
 
 interface Props {
@@ -64,9 +88,8 @@ const AddHotelForm = ({ successCallback }: Props) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        validateOnBlur={false}
       >
-        {({ errors, setFieldValue, touched }) => {
+        {({ errors, setFieldValue, touched, values }) => {
           return (
             <Form>
               <Grid container spacing={2}>
@@ -84,19 +107,7 @@ const AddHotelForm = ({ successCallback }: Props) => {
                   />
                 </Grid>
                 <Grid item xs={4}>
-                  <Field
-                    as={TextField}
-                    id="address"
-                    name="address"
-                    label="Hotel Address"
-                    fullWidth
-                    error={!!errors.address}
-                    helperText={
-                      errors.address && <ErrorMessage name="address" />
-                    }
-                    sx={{ marginBottom: '1rem' }}
-                    required
-                  />{' '}
+                  <ChipInput name="phoneNumbers" label="Phone Numbers" />
                 </Grid>
                 <Grid item xs={4}>
                   <Field
@@ -108,6 +119,81 @@ const AddHotelForm = ({ successCallback }: Props) => {
                     error={!!errors.gstNumber}
                     helperText={
                       errors.gstNumber && <ErrorMessage name="gstNumber" />
+                    }
+                    sx={{ marginBottom: '1rem' }}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Field
+                    as={TextField}
+                    name="address.street"
+                    label="Street"
+                    fullWidth
+                    error={!!errors.address?.street}
+                    helperText={
+                      errors.address?.street && (
+                        <ErrorMessage name="address.street" />
+                      )
+                    }
+                    sx={{ marginBottom: '1rem' }}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Field
+                    as={TextField}
+                    name="address.city"
+                    label="City"
+                    fullWidth
+                    error={!!errors.address?.city}
+                    helperText={
+                      errors.address?.city && (
+                        <ErrorMessage name="address.city" />
+                      )
+                    }
+                    sx={{ marginBottom: '1rem' }}
+                    required
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Autocomplete
+                    id="state"
+                    options={STATES}
+                    fullWidth
+                    onChange={(e, value) => {
+                      setFieldValue(
+                        'address.state',
+                        value !== null ? value : ''
+                      );
+                    }}
+                    renderInput={(params) => (
+                      <TextField
+                        label="States"
+                        error={!!errors.address?.state}
+                        helperText={
+                          errors.address?.state && (
+                            <ErrorMessage name="address.state" />
+                          )
+                        }
+                        {...params}
+                        required
+                      />
+                    )}
+                    sx={{ marginBottom: '1rem' }}
+                  />
+                </Grid>
+                <Grid item xs={3}>
+                  <Field
+                    as={TextField}
+                    name="address.zipCode"
+                    label="ZIP Code"
+                    fullWidth
+                    error={!!errors.address?.zipCode}
+                    helperText={
+                      errors.address?.zipCode && (
+                        <ErrorMessage name="address.zipCode" />
+                      )
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
