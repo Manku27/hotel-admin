@@ -61,31 +61,33 @@ const LoginForm = () => {
       <Card sx={{ m: 2, p: 2, maxWidth: '30vw' }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              align="center"
+              sx={{ marginBottom: '1rem' }}
+            >
+              Hotel-Admin
+            </Typography>
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
-              validateOnBlur={false}
             >
-              {({ errors }) => {
+              {({ errors, touched }) => {
                 return (
                   <Form>
-                    <Typography
-                      variant="h6"
-                      gutterBottom
-                      align="center"
-                      sx={{ marginBottom: '1rem' }}
-                    >
-                      Hotel-Admin
-                    </Typography>
                     <Field
                       as={TextField}
                       id="email"
                       name="email"
                       label="E-mail"
                       fullWidth
-                      error={!!errors.email}
-                      helperText={errors.email && <ErrorMessage name="email" />}
+                      error={!!errors.email && !!touched.email}
+                      helperText={
+                        touched.email &&
+                        errors.email && <ErrorMessage name="email" />
+                      }
                       sx={{ marginBottom: '1rem' }}
                       type="email"
                       InputLabelProps={{

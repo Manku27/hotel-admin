@@ -23,13 +23,13 @@ const PasswordField = ({ error, ...props }: any) => {
 
   return (
     <Field name="password">
-      {({ field }) => {
+      {({ field, form: { touched } }) => {
         return (
           <FormControl
             sx={{ marginBottom: '1rem' }}
             variant="outlined"
             fullWidth
-            error={!!error}
+            error={!!error && !!touched.password}
           >
             <InputLabel shrink>Password</InputLabel>
             <OutlinedInput
@@ -50,7 +50,7 @@ const PasswordField = ({ error, ...props }: any) => {
               }
               label="Password"
             />
-            {error && (
+            {error && touched.password && (
               <FormHelperText>
                 <ErrorMessage name="password" />
               </FormHelperText>
