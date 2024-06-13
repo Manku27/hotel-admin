@@ -133,7 +133,7 @@ const getRowClassName = (params) => {
 };
 
 function Availability() {
-  const { hotelId } = useParams();
+  const { hotelId, hotelName } = useParams();
 
   const [selectedDate, setSelectedDate] = useState(dayjs());
 
@@ -185,10 +185,12 @@ function Availability() {
     >
       <Grid container spacing={1} sx={{ my: 1, pl: '8px' }} alignItems="center">
         <Grid item xs={10} sx={{ textAlign: 'left' }}>
-          <Typography variant="h3">Availability for {hotelId}</Typography>
+          <Typography variant="h3" textAlign="center">
+            {hotelName}
+          </Typography>
         </Grid>
         <Grid item xs={2} sx={{ textAlign: 'right' }}>
-          <Link to={`/book/${hotelId}`}>
+          <Link to={`/book/${hotelId}/${hotelName}`}>
             <Button variant="contained" color="primary">
               Make Bookings
             </Button>

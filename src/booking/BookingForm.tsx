@@ -43,7 +43,7 @@ const initialValues: RoomBooking = {
 };
 
 const BookingForm = () => {
-  const { hotelId } = useParams();
+  const { hotelId, hotelName } = useParams();
 
   const [checkIn, setCheckIn] = useState(today);
   const [checkOut, setCheckOut] = useState(today.add(1, 'day'));
@@ -125,7 +125,7 @@ const BookingForm = () => {
       }}
     >
       <Typography variant="h3" sx={{ m: 1 }}>
-        Booking
+        {hotelName}
       </Typography>
       <AddGuestsForm
         guestList={guestList}

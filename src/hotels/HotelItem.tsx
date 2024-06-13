@@ -97,7 +97,7 @@ export const HotelItem = ({ hotel }: Props) => {
           <Grid item xs={3}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Link
-                to={`/hotel/${hotel.id}`}
+                to={`/hotel/${hotel.id}/${hotel.name}`}
                 style={{ textDecoration: 'none', color: '#01579b' }}
               >
                 <Button variant="contained">
@@ -105,7 +105,7 @@ export const HotelItem = ({ hotel }: Props) => {
                 </Button>
               </Link>
               <Link
-                to={`/bookings/${hotel.id}`}
+                to={`/bookings/${hotel.id}/${hotel.name}`}
                 style={{ textDecoration: 'none', color: '#01579b' }}
               >
                 <Button variant="contained">

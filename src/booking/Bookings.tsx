@@ -13,7 +13,7 @@ import { PageCenter } from '../common/PageCenter';
 const today = dayjs();
 
 const Bookings = () => {
-  const { hotelId } = useParams();
+  const { hotelId, hotelName } = useParams();
 
   const [checkIn, setCheckIn] = useState<Dayjs | null>(
     today.subtract(3, 'days')
@@ -44,7 +44,7 @@ const Bookings = () => {
         backgroundColor: '#e0e0e0',
       }}
     >
-      <Typography variant="h2">Bookings</Typography>
+      <Typography variant="h2">{hotelName}</Typography>
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Grid container spacing={2} sx={{ my: 1 }}>

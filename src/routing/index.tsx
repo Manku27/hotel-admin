@@ -23,15 +23,15 @@ export const routes = [
     element: <Hotels />,
   },
   {
-    path: '/book/:hotelId',
+    path: '/book/:hotelId/:hotelName',
     element: <BookingForm />,
   },
   {
-    path: '/hotel/:hotelId',
+    path: '/hotel/:hotelId/:hotelName',
     element: <Availability />,
   },
   {
-    path: '/bookings/:hotelId',
+    path: '/bookings/:hotelId/:hotelName',
     element: <Bookings />,
   },
   {
