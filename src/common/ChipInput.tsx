@@ -50,7 +50,7 @@ const ChipInput = ({ name, label }: Props) => {
               }}
               helperText={form.errors[name] ? form.errors[name] : ''}
               fullWidth
-              error={!!form.errors[name]}
+              error={!!form.errors[name] && !!form.touched[name]}
             />
 
             <FormHelperText>Hit Enter after every number</FormHelperText>

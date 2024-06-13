@@ -89,7 +89,7 @@ const AddHotelForm = ({ successCallback }: Props) => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, setFieldValue, touched, values }) => {
+        {({ errors, setFieldValue, touched }) => {
           return (
             <Form>
               <Grid container spacing={2}>
@@ -100,8 +100,11 @@ const AddHotelForm = ({ successCallback }: Props) => {
                     name="name"
                     label="Hotel Name"
                     fullWidth
-                    error={!!errors.name}
-                    helperText={errors.name && <ErrorMessage name="name" />}
+                    error={!!errors.name && !!touched.name}
+                    helperText={
+                      errors.name &&
+                      touched.name && <ErrorMessage name="name" />
+                    }
                     sx={{ marginBottom: '1rem' }}
                     required
                   />
@@ -116,9 +119,10 @@ const AddHotelForm = ({ successCallback }: Props) => {
                     name="gstNumber"
                     label="GST Number"
                     fullWidth
-                    error={!!errors.gstNumber}
+                    error={!!errors.gstNumber && !!touched.gstNumber}
                     helperText={
-                      errors.gstNumber && <ErrorMessage name="gstNumber" />
+                      errors.gstNumber &&
+                      touched.gstNumber && <ErrorMessage name="gstNumber" />
                     }
                     sx={{ marginBottom: '1rem' }}
                     required
@@ -130,9 +134,10 @@ const AddHotelForm = ({ successCallback }: Props) => {
                     name="address.street"
                     label="Street"
                     fullWidth
-                    error={!!errors.address?.street}
+                    error={!!errors.address?.street && touched.address?.street}
                     helperText={
-                      errors.address?.street && (
+                      errors.address?.street &&
+                      touched.address?.street && (
                         <ErrorMessage name="address.street" />
                       )
                     }
@@ -146,9 +151,10 @@ const AddHotelForm = ({ successCallback }: Props) => {
                     name="address.city"
                     label="City"
                     fullWidth
-                    error={!!errors.address?.city}
+                    error={!!errors.address?.city && !!touched.address?.city}
                     helperText={
-                      errors.address?.city && (
+                      errors.address?.city &&
+                      touched.address?.city && (
                         <ErrorMessage name="address.city" />
                       )
                     }
@@ -170,9 +176,12 @@ const AddHotelForm = ({ successCallback }: Props) => {
                     renderInput={(params) => (
                       <TextField
                         label="States"
-                        error={!!errors.address?.state}
+                        error={
+                          !!errors.address?.state && !!touched.address?.state
+                        }
                         helperText={
-                          errors.address?.state && (
+                          errors.address?.state &&
+                          touched.address?.state && (
                             <ErrorMessage name="address.state" />
                           )
                         }
@@ -189,9 +198,12 @@ const AddHotelForm = ({ successCallback }: Props) => {
                     name="address.zipCode"
                     label="ZIP Code"
                     fullWidth
-                    error={!!errors.address?.zipCode}
+                    error={
+                      !!errors.address?.zipCode && !!touched.address?.zipCode
+                    }
                     helperText={
-                      errors.address?.zipCode && (
+                      errors.address?.zipCode &&
+                      touched.address?.zipCode && (
                         <ErrorMessage name="address.zipCode" />
                       )
                     }
@@ -227,7 +239,8 @@ const AddHotelForm = ({ successCallback }: Props) => {
                         {...params}
                         error={!!errors.employeeIds && !!touched.employeeIds}
                         helperText={
-                          errors.employeeIds && (
+                          errors.employeeIds &&
+                          touched.employeeIds && (
                             <ErrorMessage name="employeeIds" />
                           )
                         }
