@@ -149,8 +149,6 @@ function Availability() {
     getFetcher
   );
 
-  console.log(revenue);
-
   const roomList: Room[] = data ?? [];
 
   const handlePrevWeek = () => {

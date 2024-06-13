@@ -108,8 +108,6 @@ const BookingForm = () => {
     );
 
     guestList.forEach((guest) => {
-      console.log('guest', guest.picture);
-
       formData.append('govtId', guest.govtId);
       formData.append('picture', guest.picture);
     });
