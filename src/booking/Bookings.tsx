@@ -9,6 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import BookingList from './BookingList';
 import { ScriptLoadingFallback } from '../routing/ScriptLoadingFallback';
 import { PageCenter } from '../common/PageCenter';
+import { RevenueDisplay } from '../common/RevenueDisplay';
 
 const today = dayjs();
 
@@ -47,7 +48,16 @@ const Bookings = () => {
       <Typography variant="h2">{hotelName}</Typography>
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <Grid container spacing={2} sx={{ my: 1 }}>
+        <Grid
+          container
+          spacing={2}
+          sx={{
+            my: 1,
+            backgroundColor: '#fff',
+            borderRadius: 1,
+            pb: 2,
+          }}
+        >
           <Grid
             item
             xs={2}
@@ -76,11 +86,13 @@ const Bookings = () => {
           </Grid>
           <Grid item xs={1}></Grid>
           <Grid item xs={6}>
-            <Typography variant="h4">
-              {revenue
-                ? `Booking = ₹ ${revenue.totalBookingRevenue} , Service = ₹ ${revenue.totalServiceRevenue} , Total = ₹ ${revenue.totalRevenue}`
-                : null}
-            </Typography>
+            {revenue && revenue.totalRevenue > 0 ? (
+              <RevenueDisplay
+                booking={revenue.totalBookingRevenue}
+                service={revenue.totalServiceRevenue}
+                total={revenue.totalRevenue}
+              />
+            ) : null}
           </Grid>
         </Grid>
       </LocalizationProvider>

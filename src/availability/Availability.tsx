@@ -24,6 +24,7 @@ import { useState } from 'react';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosNewIcon from '@mui/icons-material/ArrowForwardIos';
 import { Room } from '../rooms/roomTypes';
+import { RevenueDisplay } from '../common/RevenueDisplay';
 
 function getWeekDates(today) {
   const weekStart = today.startOf('week'); // Sunday
@@ -197,28 +198,38 @@ function Availability() {
           </Link>
         </Grid>
       </Grid>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        sx={{ my: 1 }}
-        alignItems="center"
-      >
-        <Typography variant="h4" sx={{ mx: 1, textAlign: 'right' }}>
-          {months[month]}
-        </Typography>
-        <Typography variant="h5" sx={{ mx: 1 }}>
-          {revenue
-            ? `Booking = ₹ ${revenue.totalBookingRevenue} , Service = ₹ ${revenue.totalServiceRevenue} , Total = ₹ ${revenue.totalRevenue}`
-            : null}
-        </Typography>
-        <Box>
+
+      <Grid container spacing={2} sx={{ my: 1 }}>
+        <Grid item xs={2}>
+          <Typography variant="h4" sx={{ ml: 2, textAlign: 'left' }}>
+            {months[month]}
+          </Typography>
+        </Grid>
+        <Grid item xs={8}>
+          {revenue && revenue.totalRevenue > 0 ? (
+            <RevenueDisplay
+              booking={revenue.totalBookingRevenue}
+              service={revenue.totalServiceRevenue}
+              total={revenue.totalRevenue}
+            />
+          ) : null}
+        </Grid>
+        <Grid
+          item
+          xs={2}
+          sx={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+          }}
+        >
           <ArrowBackIosNewIcon
             onClick={handlePrevWeek}
             sx={{
               m: 1,
               ':hover': {
                 cursor: 'pointer',
-                color: 'lightblue',
+                color: 'red',
               },
             }}
           />
@@ -227,13 +238,14 @@ function Availability() {
               m: 1,
               ':hover': {
                 cursor: 'pointer',
-                color: 'lightblue',
+                color: 'red',
               },
             }}
             onClick={handleNextWeek}
           />
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
+
       <Card sx={{ m: 1 }}>
         <DataGrid
           rows={roomList}
