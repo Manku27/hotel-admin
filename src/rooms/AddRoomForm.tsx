@@ -14,6 +14,7 @@ import { ROOM_TYPE_LIST, RoomType, roomTypeValues } from './roomConstants';
 import { SyntheticEvent } from 'react';
 import { sendRequest } from '../services/fetcher';
 import { useSWRConfig } from 'swr';
+import ChipInput from '../common/ChipInput';
 
 const validationSchema = yup.object().shape({
   roomNumbers: yup
@@ -135,33 +136,8 @@ const AddRoomForm = ({ hotelId, successCallback }: Props) => {
               type="number"
               onWheel={(e: SyntheticEvent) => (e.target as HTMLElement).blur()}
             />
-            <Autocomplete
-              clearIcon={false}
-              options={[]}
-              freeSolo
-              multiple
-              renderTags={(value, props) =>
-                value.map((option, index) => (
-                  <Chip label={option} {...props({ index })} key={index} />
-                ))
-              }
-              onChange={(e, value) => {
-                setFieldValue('roomNumbers', value !== null ? value : '');
-              }}
-              sx={{ marginBottom: '1rem' }}
-              renderInput={(params) => (
-                <TextField
-                  label="Room Numbers (Hit enter after every entry)"
-                  {...params}
-                  error={!!errors.roomNumbers && !!touched.roomNumbers}
-                  helperText={
-                    errors.roomNumbers &&
-                    touched.roomNumbers && <ErrorMessage name="roomNumbers" />
-                  }
-                  required
-                />
-              )}
-            />
+            <ChipInput name="roomNumbers" label="Room Numbers" />
+
             <Button
               type="submit"
               variant="contained"

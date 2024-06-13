@@ -48,7 +48,9 @@ const ChipInput = ({ name, label }: Props) => {
                   </InputAdornment>
                 )),
               }}
-              helperText={form.errors[name] ? form.errors[name] : ''}
+              helperText={
+                form.errors[name] && form.touched[name] ? form.errors[name] : ''
+              }
               fullWidth
               error={!!form.errors[name] && !!form.touched[name]}
             />
