@@ -124,3 +124,33 @@ export const getAndDisplayFiles = async (url) => {
     });
   }
 };
+
+export async function deleteRequest(url, successCallback) {
+  const id = toast.loading('Deleting...');
+  try {
+    await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    toast.update(id, {
+      render: 'Successful!',
+      type: 'success',
+      isLoading: false,
+      autoClose: 800,
+    });
+    if (successCallback) {
+      successCallback();
+    }
+  } catch (error) {
+    console.error(error);
+    toast.update(id, {
+      render: `Failed.`,
+      type: 'error',
+      isLoading: false,
+      autoClose: 800,
+    });
+  }
+}
