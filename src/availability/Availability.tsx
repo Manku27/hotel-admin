@@ -199,7 +199,7 @@ function Availability() {
         </Grid>
       </Grid>
 
-      <Grid container spacing={2} sx={{ my: 1 }}>
+      <Grid container spacing={2} sx={{ my: 1, alignItems: 'center' }}>
         <Grid item xs={2}>
           <Typography variant="h4" sx={{ ml: 2, textAlign: 'left' }}>
             {months[month]}
@@ -207,11 +207,13 @@ function Availability() {
         </Grid>
         <Grid item xs={8}>
           {revenue && revenue.totalRevenue > 0 ? (
-            <RevenueDisplay
-              booking={revenue.totalBookingRevenue}
-              service={revenue.totalServiceRevenue}
-              total={revenue.totalRevenue}
-            />
+            <Card sx={{ p: 2 }}>
+              <RevenueDisplay
+                booking={revenue.totalBookingRevenue}
+                service={revenue.totalServiceRevenue}
+                total={revenue.totalRevenue}
+              />
+            </Card>
           ) : null}
         </Grid>
         <Grid
