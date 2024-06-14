@@ -18,7 +18,7 @@ import {
 } from '../rooms/roomConstants';
 import LazyComponentWrapper from '../routing/LazyComponentWrapper';
 import { Link } from 'react-router-dom';
-import useSWR, { useSWRConfig } from 'swr';
+import useSWR, { mutate } from 'swr';
 import { getFetcher, sendRequest } from '../services/fetcher';
 import { employeesAsOptions } from '../common/employeesAsOptions';
 
@@ -29,8 +29,6 @@ interface Props {
 }
 
 export const HotelItem = ({ hotel }: Props) => {
-  const { mutate } = useSWRConfig();
-
   const [addRoom, setAddRom] = useState(false);
 
   const existingEmployees = employeesAsOptions(hotel.employees);

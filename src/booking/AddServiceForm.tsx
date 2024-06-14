@@ -1,8 +1,8 @@
 import { Button, Card, TextField, Typography } from '@mui/material';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useSWRConfig } from 'swr';
 import * as yup from 'yup';
 import { sendRequest } from '../services/fetcher';
+import { mutate } from 'swr';
 
 const validationSchema = yup.object().shape({
   name: yup.string().required('Name of service is required'),
@@ -21,8 +21,6 @@ interface Props {
 }
 
 const AddServiceForm = ({ listAPI, bookingId, successCallback }: Props) => {
-  const { mutate } = useSWRConfig();
-
   const handleSubmit = (values) => {
     sendRequest(
       `${import.meta.env.VITE_API}/services/${bookingId}`,

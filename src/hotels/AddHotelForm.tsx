@@ -11,7 +11,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import { AddHotel } from './hotelTypes';
 import { GST_REGEX, STATES, ZIP_REGEX } from './hotelConstants';
-import useSWR, { useSWRConfig } from 'swr';
+import useSWR, { mutate } from 'swr';
 import { getFetcher, sendRequest } from '../services/fetcher';
 import { employeesAsOptions } from '../common/employeesAsOptions';
 import ChipInput from '../common/ChipInput';
@@ -60,8 +60,6 @@ interface Props {
 }
 
 const AddHotelForm = ({ successCallback }: Props) => {
-  const { mutate } = useSWRConfig();
-
   const handleSubmit = (values) => {
     sendRequest(`${import.meta.env.VITE_API}/hotels`, values, () => {
       mutate(`${import.meta.env.VITE_API}/hotels`);

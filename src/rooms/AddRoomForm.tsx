@@ -13,7 +13,7 @@ import { AddRoom } from './roomTypes';
 import { ROOM_TYPE_LIST, RoomType, roomTypeValues } from './roomConstants';
 import { SyntheticEvent } from 'react';
 import { sendRequest } from '../services/fetcher';
-import { useSWRConfig } from 'swr';
+import { mutate } from 'swr';
 import ChipInput from '../common/ChipInput';
 
 const validationSchema = yup.object().shape({
@@ -49,8 +49,6 @@ interface Props {
 }
 
 const AddRoomForm = ({ hotelId, successCallback }: Props) => {
-  const { mutate } = useSWRConfig();
-
   const handleSubmit = (values: AddRoom) => {
     const payload = values.roomNumbers.map((room) => {
       return {
