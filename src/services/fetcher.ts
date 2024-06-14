@@ -66,7 +66,7 @@ export async function sendRequest(url, arg, successCallback, verb?: string) {
   }
 }
 
-export async function sendBookingRequest(url, arg) {
+export async function sendBookingRequest(url, arg, successCallback) {
   const id = toast.loading('Please wait...');
   try {
     await fetch(url, {
@@ -82,6 +82,9 @@ export async function sendBookingRequest(url, arg) {
       isLoading: false,
       autoClose: 800,
     });
+    if (successCallback) {
+      successCallback();
+    }
   } catch (error) {
     toast.update(id, {
       render: `Failed.`,

@@ -17,7 +17,7 @@ import { SyntheticEvent, useState } from 'react';
 import dayjs from 'dayjs';
 import FormikDatePicker from '../common/FormikDatePicker';
 import { GuestForm } from '../guests/guestsType';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useSWR from 'swr';
 import { getFetcher, sendBookingRequest } from '../services/fetcher';
 import { Room } from '../rooms/roomTypes';
@@ -44,6 +44,7 @@ const initialValues: RoomBooking = {
 
 const BookingForm = () => {
   const { hotelId, hotelName } = useParams();
+  const navigate = useNavigate();
 
   const [checkIn, setCheckIn] = useState(today);
   const [checkOut, setCheckOut] = useState(today.add(1, 'day'));
@@ -112,7 +113,9 @@ const BookingForm = () => {
       formData.append('picture', guest.picture);
     });
 
-    sendBookingRequest(`${import.meta.env.VITE_API}/bookings`, formData);
+    sendBookingRequest(`${import.meta.env.VITE_API}/bookings`, formData, () => {
+      navigate(`/hotel/${hotelId}/${hotelName}`);
+    });
   };
 
   return (
