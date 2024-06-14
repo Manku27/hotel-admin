@@ -5,6 +5,7 @@ import { lazy, useState } from 'react';
 import LazyComponentWrapper from '../routing/LazyComponentWrapper';
 import { getAndDisplayFiles } from '../services/fetcher';
 import { PhotoDownload } from '../common/PhotoDownload';
+import { DeleteService } from './DeleteService';
 
 const AddServiceForm = lazy(() => import('./AddServiceForm'));
 
@@ -37,19 +38,6 @@ const guestColumns = [
   },
 ];
 
-const billColumns = [
-  {
-    field: 'name',
-    headerName: 'Service',
-    flex: 1,
-  },
-  {
-    field: 'cost',
-    headerName: 'Cost',
-    flex: 1,
-  },
-];
-
 interface Props {
   item: Booking;
   listAPI: string;
@@ -68,6 +56,27 @@ export const BookingItem = ({ item, listAPI }: Props) => {
     const url = `${import.meta.env.VITE_API}/bills/${item.id}`;
     getAndDisplayFiles(url);
   };
+
+  const billColumns = [
+    {
+      field: 'name',
+      headerName: 'Service',
+      flex: 1,
+    },
+    {
+      field: 'cost',
+      headerName: 'Cost',
+      flex: 1,
+    },
+    {
+      field: 'delete',
+      headerName: 'Remove',
+      flex: 0.5,
+      renderCell: ({ row }: GridCellParams) => {
+        return <DeleteService id={row.id} listAPI={listAPI} />;
+      },
+    },
+  ];
 
   return (
     <Grid item xs={6}>
