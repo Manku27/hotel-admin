@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import { PrivateRouteWrapper } from './PrivateRouteWrapper';
 import { Container } from '@mui/material';
 import Header from '../common/Header';
+import AadharOCR from '../OCR/AadharOCR';
 
 const Hotels = lazy(() => import('../hotels/Hotels'));
 const BookingForm = lazy(() => import('../booking/BookingForm'));
@@ -16,6 +17,11 @@ export const routes = [
   {
     path: '/login',
     element: <LoginForm />,
+    isAuthReq: false,
+  },
+  {
+    path: '/ocr',
+    element: <AadharOCR />,
     isAuthReq: false,
   },
   {
